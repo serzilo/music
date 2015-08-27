@@ -1,0 +1,174 @@
+// variables
+$header-height = 94px;
+$border-color = #e5e5e5;
+$active-color = #568af2;
+
+// mixins
+fontSize(size, context){
+	font-size: (size / context) * 100 + '%'
+}
+
+* {
+	box-sizing: border-box;
+}
+
+body {
+	color: #000;
+	font: 100% Arial,Helvetica,sans-serif;
+	margin: 0;
+	padding: 0;
+	position: relative;
+	background: #F6F5F5;
+}
+
+body, html, .layout{
+	height: 100%;
+	min-height: 100%;
+}
+
+.layout{
+	margin: 0 auto;
+	max-width: 900px;
+	position: relative;
+	background: #fff;
+
+	&__header{
+		position: fixed;
+		top: 0;
+		right: 0;
+		left: 0;
+		z-index: 1000;
+	}
+}
+
+.app{
+	&__header{
+		margin: 0 auto;
+		max-width: 900px;
+		position: relative;
+		background: #fff;
+		border-bottom: 1px solid $border-color;
+		height: $header-height
+		padding: 30px;
+	}
+
+	&__results{
+		padding-top: $header-height + 1
+		background: #fff;
+	}
+}
+
+.search{
+	position: relative;
+
+	&__input{
+		display: block;
+		width: 100%;
+		margin: 0;
+		outline: 0;
+		border: 1px solid #c2c2c2;
+		fontSize(15, 16)
+		padding: 7px 8px;
+
+		&:focus{
+			border-color: $active-color;
+		}
+	}
+
+	&__btn{
+		display: block;
+		position: absolute;
+		right: 2px;
+		top: 2px;
+		bottom: 2px;
+		border: none;
+		background: $active-color;
+		fontSize(13, 16)
+		color: #fff;
+		padding: 6px 9px 7px 9px;
+
+		&:hover,
+		&:focus{
+			outline: none;
+			background: #4c79d4;
+		}
+
+		&:active{
+			padding: 7px 9px 6px 9px;
+		}
+
+		&:before{
+			display: block;
+			content: '';
+			position: absolute;
+			top: -1px;
+			bottom: -1px;
+			right: 100%;
+			width: 8px;
+			background: #fff;
+		}
+	}
+}
+
+
+.result-item{
+	padding: 16px 30px 16px 130px;
+	position: relative;
+
+	&__image{
+		position: absolute;
+		height: 100px;
+		width: 100px;
+		top: 16px;
+		left: 16px;
+		background-color: #d2dffa;
+		background-repeat: repeat;
+		background-position: center;
+		background-size: contain;
+	}
+
+	&__artist{
+		font-weight:bold;
+		fontSize(20, 16)
+	}
+
+	&:after{
+		display: block;
+		content: '';
+		height: 0;
+		border-top: 1px solid $border-color;
+		position: absolute;
+		bottom: 0;
+		left: 130px;
+		right: 30px;
+	}
+}
+
+.track-list{
+	margin: 0;
+	padding: 0;
+	list-style: none;
+
+	&__item{
+		fontSize(15, 16)
+		padding: 6px 6px 6px 20px;
+		cursor: pointer;
+
+		&:hover{
+			background: $active-color;
+			color: #fff;
+		}
+
+		&:active{
+			padding: 7px 6px 5px 20px;
+		}
+	}
+}
+
+
+
+
+
+
+
+
