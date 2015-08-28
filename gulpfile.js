@@ -3,6 +3,7 @@
 var gulp = require('gulp'),
 	watch = require('gulp-watch'),
     browserify = require('browserify'),
+    reactify = require('reactify'),
     uglify = require('gulp-uglify'),
     source = require('vinyl-source-stream'),
     buffer = require('vinyl-buffer'),
@@ -29,7 +30,7 @@ var path = {
     watch: {
         html:   'src/html/*.html',
         css:    'src/css/main.styl',
-        js:     'src/js/*.js'
+        js:     'src/js/**/*.js'
     }
 };
 
@@ -53,10 +54,11 @@ gulp.task('html:build', function () {
 
 gulp.task('js:build', function () {
     return browserify(path.src.js, {debug: true})
+        .transform(reactify)
         .bundle()
         .pipe(source(path.build.jsName))
         .pipe(buffer())
-        .pipe(uglify())
+        /* .pipe(uglify()) */
         .pipe(gulp.dest(path.build.js))
         .pipe(reload({stream: true}));
 
