@@ -18,7 +18,7 @@ var FluxSearch = React.createClass({
 
 		if (q.length > 0){
 			$.get( "https://api.spotify.com/v1/search?q="+q+"&type=artist", function( data ) {
-				console.dir(data);
+				FluxMusicActions.updateResults(data);
 			});
 		}
 	},

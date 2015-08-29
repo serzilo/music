@@ -1,11 +1,13 @@
 var React = require('react');
 var ResultsStore = require('../stores/ResultsStore');
 var FluxSearch = require('./FluxSearch.react');
-/* var FluxResults = require('./FluxResults.react'); */
+var FluxResults = require('./FluxResults.react');
 
 
 function getResultsState() {
-  return ResultsStore.getdata();
+	console.log('getResultsState');
+	console.dir({results: ResultsStore.getdata()});
+  return {results: ResultsStore.getdata()};
 }
 
 
@@ -28,7 +30,10 @@ var FluxMusicApp = React.createClass({
 
 	render: function() {
 	    return (
-	        <FluxSearch />
+	    	<div>
+		        <FluxSearch />
+		        <FluxResults results={this.state.results}  />
+	        </div>
 	    );
 	}
 });

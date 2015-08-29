@@ -6,7 +6,7 @@ var _ = require('underscore');
 var _results = {};
 
 function loadMusicData(data) {
-  _results = data;
+ 	_results = data.artists.items;
 }
 
 var ResultsStore = _.extend({}, EventEmitter.prototype, {
