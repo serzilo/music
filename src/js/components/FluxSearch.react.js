@@ -1,5 +1,6 @@
 var React = require('react');
 var $ = require('jquery');
+var FluxTypeToggle = require('./FluxTypeToggle.react');
 var FluxMusicActions = require('../actions/FluxMusicActions');
 
 var FluxSearch = React.createClass({
@@ -27,9 +28,10 @@ var FluxSearch = React.createClass({
 			<div className="layout__header">
 				<div className="app__header">
 					<div className="search">
-						<input ref="searchInput" className="search__input" type="text" placeholder="artist, track" tabIndex="1" onKeyDown={this.keydownHandler} />
+						<input ref="searchInput" className="search__input" type="text" placeholder="Поиск" tabIndex="1" onKeyDown={this.keydownHandler} />
 						<button className="search__btn" tabIndex="2" onClick={this.submitFormHandler}>Найти</button>
 					</div>
+					<FluxTypeToggle />
 				</div>
 			</div>
 		);

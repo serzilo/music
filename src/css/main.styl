@@ -1,5 +1,5 @@
 // variables
-$header-height = 94px;
+$header-height = 119px;
 $border-color = #e5e5e5;
 $active-color = #568af2;
 
@@ -47,9 +47,9 @@ body, html, .layout{
 		max-width: 900px;
 		position: relative;
 		background: #fff;
+		background: rgba(255,255,255, 0.9);
 		border-bottom: 1px solid $border-color;
-		height: $header-height
-		padding: 30px;
+		padding: 15px;
 	}
 
 	&__results{
@@ -166,8 +166,65 @@ body, html, .layout{
 }
 
 
+.table{
+    width: 100%;
+    border-spacing: 0px;
+    border-collapse: collapse;
+    table-layout: fixed;
 
+    &__cell {
+	    vertical-align: top;
+	    border: 0;
+	    padding: 0;
+	    text-align: center;
+	}
+}
 
+.toggle{
+	cursor: pointer;
+    display: block;
+    position: relative;
+    padding: 11px 0;
+    background: #fff;
+    margin: 0;
+    border: 1px solid #cdd4e1;
+    border-right-width: 0;
+
+    color: #7a90a0;
+    fontSize(14, 16)
+    font-weight: normal;
+    white-space: nowrap;
+
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
+    user-select: none;
+    border-radius: 0px;
+
+	&_active{
+		color: #323232;
+	    background: #b8cde3;
+	    box-shadow: inset 0px 3px 5px #6485a7;
+	    cursor: default;
+	}
+
+	&_first{
+		border-top-left-radius: 3px;
+    	border-bottom-left-radius: 3px;
+	}
+
+	&_last{
+		border-top-right-radius: 3px;
+    	border-bottom-right-radius: 3px;
+    	border-right-width: 1px;
+	}
+}
+
+.block{
+	margin-top: 15px;
+
+	&_toggle{
+		max-width: 550px;
+	}
+}
 
 
 
