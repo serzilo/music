@@ -1,7 +1,7 @@
 var React = require('react');
-var $ = require('jquery');
 var FluxTypeToggle = require('./FluxTypeToggle.react');
 var FluxMusicActions = require('../actions/FluxMusicActions');
+var $ = require('jquery');
 
 var FluxSearch = React.createClass({
 	keydownHandler: function(e) {
@@ -11,27 +11,28 @@ var FluxSearch = React.createClass({
 			this.searchRequest();
 		}
 	},
+	changeHandler: function(){
+		var q = $.trim(this.refs.searchInput.getDOMNode().value);
+
+		FluxMusicActions.changeQuery(q);
+	},
 	submitFormHandler: function() {
 		this.searchRequest();
 	},
 	searchRequest: function(){
-		var q = $.trim(this.refs.searchInput.getDOMNode().value);
-
-		if (q.length > 0){
-			$.get( "https://api.spotify.com/v1/search?q="+q+"&type=artist", function( data ) {
-				FluxMusicActions.updateResults(data);
-			});
-		}
+		FluxMusicActions.search();
 	},
 	render: function() {
+		var type = this.props.type;
+
 		return (
 			<div className="layout__header">
 				<div className="app__header">
 					<div className="search">
-						<input ref="searchInput" className="search__input" type="text" placeholder="Поиск" tabIndex="1" onKeyDown={this.keydownHandler} />
+						<input ref="searchInput" className="search__input" type="text" placeholder="Поиск" tabIndex="1" onKeyDown={this.keydownHandler} onChange={this.changeHandler} />
 						<button className="search__btn" tabIndex="2" onClick={this.submitFormHandler}>Найти</button>
 					</div>
-					<FluxTypeToggle />
+					<FluxTypeToggle type={type} />
 				</div>
 			</div>
 		);

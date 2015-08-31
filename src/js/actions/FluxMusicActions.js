@@ -2,9 +2,20 @@ var AppDispatcher = require('../dispatcher/AppDispatcher');
 var FluxMusicConstants = require('../constants/FluxMusicConstants');
 
 var FluxMusicActions = {
-	updateResults: function(data) {
+	search: function() {
 		AppDispatcher.handleAction({
-			actionType: FluxMusicConstants.CHANGE_DATA,
+			actionType: FluxMusicConstants.SEARCH,
+		})
+	},
+	changeQuery: function(data) {
+		AppDispatcher.handleAction({
+			actionType: FluxMusicConstants.CHANGE_QUERY,
+			data: data
+		})
+	},
+	changeSearchType: function(data) {
+		AppDispatcher.handleAction({
+			actionType: FluxMusicConstants.CHANGE_SEARCH_TYPE,
 			data: data
 		})
 	}
