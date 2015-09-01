@@ -20,17 +20,20 @@ var path = {
         html: 'build/',
         css:  'build/css/',
         js:   'build/js/',
-        jsName: 'bundle.js'
+        jsName: 'bundle.js',
+        img:  'build/img/'
     },
     src: {
         html:  'src/html/*.html',
         css:   'src/css/main.styl',
-        js:    'src/js/main.js'
+        js:    'src/js/main.js',
+        static:     'src/img/static/*.*'
     },
     watch: {
         html:   'src/html/*.html',
         css:    'src/css/main.styl',
-        js:     'src/js/**/*.js'
+        js:     'src/js/**/*.js',
+        static:     'src/img/static/*.*'
     }
 };
 
@@ -77,9 +80,15 @@ gulp.task('css:build', function () {
         .pipe(reload({stream: true}));
 });
 
+gulp.task('static:build', function () {
+    gulp.src(path.src.static)
+        .pipe(gulp.dest(path.build.img));
+}); 
+
 gulp.task('build', [
     'html:build',
     'css:build',
+    'static:build',
     'js:build'
 ]);
 
@@ -94,6 +103,10 @@ gulp.task('watch', function(){
 
     watch([path.watch.js], function(event, cb) {
         gulp.start('js:build');
+    });
+
+    watch([path.watch.static], function(event, cb) {
+        gulp.start('static:build');
     });
 });
 

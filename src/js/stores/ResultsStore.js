@@ -5,32 +5,39 @@ var _ = require('underscore');
 var $ = require('jquery');
 
 var _store = {
-	results: {},
+	results: {
+
+	},
 	form: {
 		query: '',
 		type: "1"
 	}
 };
 
-function searchMusicData() {
+function searchMusicData(data) {
 	var types = ['track','artist','album'],
 		type = types[_store.form.type],
-		query = _store.form.query;
+		query = _store.form.query,
+		ajaxQuery = "https://api.spotify.com/v1/search?q="+query+"&type="+type;
+
+	if (data && data.next == true){
+		ajaxQuery = _store.results.next;
+	}
 
 	if (query.length > 0){
-		$.get( "https://api.spotify.com/v1/search?q="+query+"&type="+type, function(data) {
+		$.get(ajaxQuery , function(data) {
 			switch (_store.form.type) {
 				case "0":
-      				_store.results = data.tracks.items;
+      				_store.results = data.tracks;
 					break;
 				case "1":
-      				_store.results = data.artists.items;
+      				_store.results = data.artists;
 					break;
 				case "2":
-      				_store.results = data.albums.items;
+      				_store.results = data.albums;
 					break;
 			}
-
+			
 			ResultsStore.emitChange();
 		});
 	}
@@ -70,6 +77,9 @@ AppDispatcher.register(function(payload) {
 	switch(action.actionType) {
 	    case FluxMusicConstants.SEARCH:
 		    searchMusicData();
+		    break;
+		case FluxMusicConstants.SEARCH_MORE:
+		    searchMusicData({next: true});
 		    break;
 		case FluxMusicConstants.CHANGE_QUERY:
 		    saveQuery(action.data);

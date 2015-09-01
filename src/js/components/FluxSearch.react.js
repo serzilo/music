@@ -30,6 +30,7 @@ var FluxSearch = React.createClass({
 				<div className="app__header">
 					<div className="search">
 						<input ref="searchInput" className="search__input" type="text" placeholder="Поиск" tabIndex="1" onKeyDown={this.keydownHandler} onChange={this.changeHandler} />
+						<i className="search__spinner hide"></i>
 						<button className="search__btn" tabIndex="2" onClick={this.submitFormHandler}>Найти</button>
 					</div>
 					<FluxTypeToggle type={type} />

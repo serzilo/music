@@ -3,14 +3,24 @@ var $ = require('jquery');
 var FluxMusicActions = require('../actions/FluxMusicActions');
 
 var FluxResults = React.createClass({
-
+	searchMore: function(){
+		FluxMusicActions.searchMore();
+	},
 	render: function() {
-		var self = this, items = this.props.results;
+		var self = this, 
+			items = (this.props.results.items ? this.props.results.items : {}),
+			type = this.props.type,
+			types = {
+				track:  0,
+				artist: 1,
+				album:  2
+			};
+
 		console.dir(items);
+		console.dir(this.props.results);
 
 		return (
 			<div className="app__results">
-				
 				{Object.keys(items).map(function(item){
 					var styles ={
 					    image: {
@@ -31,6 +41,8 @@ var FluxResults = React.createClass({
 						</div>
 					);
 				})}
+
+				<div onClick={this.searchMore} className={'button' + (!this.props.results.next || this.props.results.next === null ? ' hide' : '')}>Загрузить ещё</div>
 			</div>
 		);
 	}

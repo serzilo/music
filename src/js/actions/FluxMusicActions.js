@@ -7,6 +7,11 @@ var FluxMusicActions = {
 			actionType: FluxMusicConstants.SEARCH,
 		})
 	},
+	searchMore: function(){
+		AppDispatcher.handleAction({
+			actionType: FluxMusicConstants.SEARCH_MORE,
+		})
+	},
 	changeQuery: function(data) {
 		AppDispatcher.handleAction({
 			actionType: FluxMusicConstants.CHANGE_QUERY,
