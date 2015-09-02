@@ -8,9 +8,9 @@ var FluxTypeToggle = React.createClass({
 	render: function() {
 		var type = this.props.type,
 			types = {
-				tracks: 0,
-				artists: 1,
-				albums: 2
+				track: 0,
+				artist: 1,
+				album: 2
 			};
 
 		return (
@@ -18,19 +18,19 @@ var FluxTypeToggle = React.createClass({
 				<table className="table">
 					<tr>
 						<td className="table__cell">
-							<label className={"toggle toggle_first" + (types.tracks == type ? ' toggle_active' : '')} data-type="0" onClick={this.clickHandler}>  
+							<label className={"toggle toggle_first" + (types.track == type ? ' toggle_active' : '')} data-type="0" onClick={this.clickHandler}>  
 								 Трек
 							</label>
 						</td>
 
 						<td className="table__cell">
-							<label className={"toggle" + (types.artists == type ? ' toggle_active' : '')} data-type="1" onClick={this.clickHandler}>
+							<label className={"toggle" + (types.artist == type ? ' toggle_active' : '')} data-type="1" onClick={this.clickHandler}>
 								Артист
 							</label>
 						</td>
 
 						<td className="table__cell">
-							<label className={"toggle toggle_last" + (types.albums == type ? ' toggle_active' : '')} data-type="2" onClick={this.clickHandler}>
+							<label className={"toggle toggle_last" + (types.album == type ? ' toggle_active' : '')} data-type="2" onClick={this.clickHandler}>
 								Альбом
 							</label>
 						</td>

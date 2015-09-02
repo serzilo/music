@@ -37,6 +37,10 @@ function searchMusicData(data) {
       				_store.results = data.albums;
 					break;
 			}
+
+
+			console.log('_store.results');
+			console.log(_store.results);
 			
 			ResultsStore.emitChange();
 		});
