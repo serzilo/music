@@ -7,7 +7,7 @@ var FluxAlbumsList = React.createClass({
 			items = this.props.items;
 
 		return (
-			<div>
+			<div className="tile-wrapper">
 				{Object.keys(items).map(function(item){
 					var styles ={
 					    image: {
@@ -16,9 +16,9 @@ var FluxAlbumsList = React.createClass({
 					}
 
 					return (
-						<div className="result-item" key={item}>
-							<div className="result-item__image" style={styles.image}></div>
-							<div className="result-item__artist" id={items[item].id}>{items[item].name}</div>
+						<div className="tile" key={item}>
+							<div className="tile__image" style={styles.image}></div>
+							<div className="tile__artist" id={items[item].id}>{items[item].name}</div>
 						</div>
 					);
 				})}

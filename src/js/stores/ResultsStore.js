@@ -5,9 +5,7 @@ var _ = require('underscore');
 var $ = require('jquery');
 
 var _store = {
-	results: {
-
-	},
+	results: {},
 	form: {
 		query: '',
 		type: "1"
@@ -53,6 +51,7 @@ function saveQuery(query){
 
 function saveSearchType(type){
 	_store.form.type = type;
+	_store.results = {};
 	searchMusicData();
 }
 

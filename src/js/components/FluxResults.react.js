@@ -14,6 +14,7 @@ var FluxResults = React.createClass({
 		var self = this, 
 			items = (this.props.results.items ? this.props.results.items : {}),
 			type = this.props.type,
+			total = (this.props.results.total ? this.props.results.total : 0),
 			types = {
 				track:  '0',
 				artist: '1',
@@ -37,11 +38,13 @@ var FluxResults = React.createClass({
 				break;
 		}
 
-		// <ResultList items={items} />
+		// 
+		// {type == types.track ? <FluxTracksList items={items} /> : <FluxArtistsList items={items} />}
 
 		return (
-			<div className="app__results">
-				{type == types.track ? <FluxTracksList items={items} /> : <FluxArtistsList items={items} />}
+			<div className="app__results clear">
+				<div className="app__total">Нашлось результатов: {total}</div>
+				<ResultList items={items} />
 
 				<div onClick={this.searchMore} className={'button' + (!this.props.results.next || this.props.results.next === null ? ' hide' : '')}>Загрузить ещё</div>
 			</div>
