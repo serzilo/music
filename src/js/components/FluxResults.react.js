@@ -14,15 +14,23 @@ var FluxResults = React.createClass({
 		var self = this, 
 			items = (this.props.results.items ? this.props.results.items : {}),
 			type = this.props.type,
-			total = (this.props.results.total ? this.props.results.total : 0),
+			total = (typeof this.props.results.total != 'undefined' ? this.props.results.total : false),
 			types = {
 				track:  '0',
 				artist: '1',
 				album:  '2'
-			};
+			},
+			totalMessage = "";
 
-		console.dir(items);
-		console.dir(this.props.results);
+		if (total !== false){
+			totalMessage = '<div class="app__total">';
+			if (total == 0){
+				totalMessage += 'К сожелению, ничего не нашлось.';
+			} else {
+				totalMessage += 'Нашлось результатов: ' + total;
+			}
+			totalMessage += '</div>';
+		}
 
 		var ResultList;
 
@@ -38,12 +46,10 @@ var FluxResults = React.createClass({
 				break;
 		}
 
-		// 
-		// {type == types.track ? <FluxTracksList items={items} /> : <FluxArtistsList items={items} />}
-
 		return (
 			<div className="app__results clear">
-				<div className="app__total">Нашлось результатов: {total}</div>
+				<div dangerouslySetInnerHTML={{__html: totalMessage}}></div>
+
 				<ResultList items={items} />
 
 				<div onClick={this.searchMore} className={'button' + (!this.props.results.next || this.props.results.next === null ? ' hide' : '')}>Загрузить ещё</div>
@@ -53,5 +59,3 @@ var FluxResults = React.createClass({
 });
 
 module.exports = FluxResults;
-
-console.log('results');
