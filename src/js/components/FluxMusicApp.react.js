@@ -2,6 +2,7 @@ var React = require('react');
 var ResultsStore = require('../stores/ResultsStore');
 var FluxSearch = require('./FluxSearch.react');
 var FluxResults = require('./FluxResults.react');
+var FluxPlayer = require('./FluxPlayer.react');
 
 
 function getResultsState() {
@@ -31,6 +32,7 @@ var FluxMusicApp = React.createClass({
 	    	<div>
 		        <FluxSearch type={this.state.form.type} />
 		        <FluxResults results={this.state.results} type={this.state.form.type} />
+		        <FluxPlayer />
 	        </div>
 	    );
 	}

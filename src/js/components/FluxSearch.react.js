@@ -41,5 +41,3 @@ var FluxSearch = React.createClass({
 });
 
 module.exports = FluxSearch;
-
-console.log('search');

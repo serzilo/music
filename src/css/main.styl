@@ -1,7 +1,10 @@
 // variables
 $header-height = 119px;
+$footer-height = 135px;
+
 $border-color = #e5e5e5;
 $active-color = #568af2;
+$btn-hover-color = #ecf5fd;
 
 // mixins
 fontSize(size, context){
@@ -39,10 +42,19 @@ body, html, .layout{
 		left: 0;
 		z-index: 1000;
 	}
+
+	&__footer{
+		position: fixed;
+		bottom: 0;
+		right: 0;
+		left: 0;
+		z-index: 1000;
+	}
 }
 
 .app{
-	&__header{
+	&__header,
+	&__footer{
 		margin: 0 auto;
 		max-width: 900px;
 		position: relative;
@@ -52,8 +64,14 @@ body, html, .layout{
 		padding: 15px;
 	}
 
+	&__footer{
+		border-top: none;
+		border-top: 1px solid $border-color;
+	}
+
 	&__results{
 		padding-top: $header-height + 1
+		padding-bottom: $footer-height + 1
 		background: #fff;
 	}
 
@@ -236,7 +254,12 @@ body, html, .layout{
     user-select: none;
     border-radius: 0px;
 
-	&_active{
+    &:hover{
+    	background: $btn-hover-color;
+    }
+
+	&_active,
+	&_active:hover{
 		color: #323232;
 	    background: #b8cde3;
 	    box-shadow: inset 0px 3px 5px #6485a7;
@@ -301,6 +324,91 @@ body, html, .layout{
 	content: '';
 	display: block;
 	clear: both;
+}
+
+.player{
+	&__btn-wrapper{
+		text-align: center;
+	}
+
+	&__btn{
+	    display: inline-block;
+	    cursor: pointer;
+	    padding: 20px;
+	    height: 62px;
+	    width: 62px;
+	    border: 1px solid $border-color;
+	    text-decoration: none;
+	    vertical-align: middle;
+	    background: #fff;
+	    margin: 0 15px;
+
+	    border-radius: 50%;
+	    -webkit-tap-highlight-color: rgba(0,0,0,0);
+   		user-select: none;
+
+   		@media all and (max-width: 340px) {
+			&{
+				margin: 0 8px;
+			}	
+		}
+
+   		&:hover{
+   			background: $btn-hover-color;
+   		}
+	}
+
+	&__tools{
+		position: relative;
+		overflow: hidden;
+		padding: 12px 0;
+	}
+
+	&__time{
+		float: left;
+		color: #7a90a0;
+		fontSize(15, 16)
+
+		&-full{
+			float: right;
+		}
+	}
+
+	&__progress{
+		position: absolute;
+		z-index: 100;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		border-top: 1px solid #cdd4e1;
+
+		&-bg{
+			position: absolute;
+			top: -1px;
+			left: 0;
+			width: 0;
+			height: 3px;
+			background: $active-color;
+			transition: width 0.4s ease-in;
+
+			&:after{
+				position: absolute;
+				top: 0;
+				right: 0;
+				height: 12px;
+				border-left: 1px solid red;
+				content: '';
+				display: block;
+			}
+		}
+	}
+}
+
+.icon{
+	display: block;
+	height: 20px;
+	width: 20px;
 }
 
 

@@ -11,6 +11,7 @@ var gulp = require('gulp'),
     stylus = require('gulp-stylus'),
     prefixer = require('gulp-autoprefixer'),
     cssmin = require('gulp-minify-css'),
+    spritesmith = require('gulp.spritesmith'),
     browserSync = require("browser-sync"),
     reload = browserSync.reload;
 
@@ -27,12 +28,14 @@ var path = {
         html:  'src/html/*.html',
         css:   'src/css/main.styl',
         js:    'src/js/main.js',
+        sprite:     'src/img/sprite/*.*',
         static:     'src/img/static/*.*'
     },
     watch: {
         html:   'src/html/*.html',
         css:    'src/css/main.styl',
         js:     'src/js/**/*.js',
+        sprite:     'src/img/sprite/*.*',
         static:     'src/img/static/*.*'
     }
 };
@@ -80,6 +83,16 @@ gulp.task('css:build', function () {
         .pipe(reload({stream: true}));
 });
 
+gulp.task('sprite:build', function () {
+    var spriteData = gulp.src(path.src.sprite).pipe(spritesmith({
+        imgName: 'sprite.png',
+        cssName: 'sprite.css',
+        imgPath: '../img/sprite.png'
+    }));
+    spriteData.img.pipe(gulp.dest(path.build.img));
+    spriteData.css.pipe(cssmin()).pipe(gulp.dest(path.build.css));
+});
+
 gulp.task('static:build', function () {
     gulp.src(path.src.static)
         .pipe(gulp.dest(path.build.img));
@@ -88,6 +101,7 @@ gulp.task('static:build', function () {
 gulp.task('build', [
     'html:build',
     'css:build',
+    'sprite:build',
     'static:build',
     'js:build'
 ]);
@@ -99,6 +113,10 @@ gulp.task('watch', function(){
 
     watch([path.watch.css], function(event, cb) {
         gulp.start('css:build');
+    });
+
+    watch([path.watch.sprite], function(event, cb) {
+        gulp.start('sprite:build');
     });
 
     watch([path.watch.js], function(event, cb) {
