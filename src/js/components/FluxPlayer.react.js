@@ -11,7 +11,8 @@ var FluxPlayer = React.createClass({
 			},
 			progress: {
 				width: '20%'
-			}
+			},
+			track: 'Muse - Starlight'
 		}
 	},
 	playHandler: function(e){
@@ -44,6 +45,9 @@ var FluxPlayer = React.createClass({
 			<div className="layout__footer">
 				<div className="app__footer">
 					<div className="player">
+						<div className="player__track-name" title={this.state.track}>
+							{this.state.track}
+						</div>
 						<div className="player__tools">
 							<div className="player__progress">
 								<div className="player__progress-bg" style={{width: this.state.progress.width}}></div>

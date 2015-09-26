@@ -1,6 +1,6 @@
 // variables
 $header-height = 119px;
-$footer-height = 135px;
+$footer-height = 164px;
 
 $border-color = #e5e5e5;
 $active-color = #568af2;
@@ -403,6 +403,14 @@ body, html, .layout{
 			}
 		}
 	}
+
+	&__track-name{
+		overflow: hidden;
+		white-space: nowrap;
+		text-overflow: ellipsis;
+		fontSize(15, 16)
+		padding-bottom: 12px;
+	}
 }
 
 .icon{
@@ -411,5 +419,35 @@ body, html, .layout{
 	width: 20px;
 }
 
+.animation{
+	position: absolute;
+    top: 0; left: 0; bottom: 0; right: 0;
+	background-color: rgba(86,138,242, 0.3);
+
+    &:after{
+    	content: "";
+        position: absolute;
+        top: 0; left: 0; bottom: 0; right: 0;
+        background-image: -webkit-gradient(linear, 0 0, 100% 100%,
+            color-stop(.25, rgba(255, 255, 255, .2)),
+            color-stop(.25, transparent), color-stop(.5, transparent),
+            color-stop(.5, rgba(255, 255, 255, .2)),
+            color-stop(.75, rgba(255, 255, 255, .2)),
+            color-stop(.75, transparent), to(transparent)
+        );
+
+        background-size: 50px 50px;
+        -webkit-animation: move 2s linear infinite;
+    }
+}
+
+@-webkit-keyframes move {
+    0% {
+       background-position: 0 0;
+    }
+    100% {
+       background-position: 50px 50px;
+    }
+}
 
 

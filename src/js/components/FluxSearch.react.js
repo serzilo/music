@@ -23,11 +23,14 @@ var FluxSearch = React.createClass({
 		FluxMusicActions.search();
 	},
 	render: function() {
-		var type = this.props.type;
+		var type = this.props.type,
+			progress = this.props.progress;
 
 		return (
 			<div className="layout__header">
 				<div className="app__header">
+
+					<div className={(progress == true ? 'animation' : '')}></div>
 					<div className="search">
 						<input ref="searchInput" className="search__input" type="text" placeholder="Поиск" tabIndex="1" onKeyDown={this.keydownHandler} onChange={this.changeHandler} />
 						<i className="search__spinner hide"></i>

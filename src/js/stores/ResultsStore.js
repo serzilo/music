@@ -4,43 +4,65 @@ var FluxMusicConstants = require('../constants/FluxMusicConstants');
 var _ = require('underscore');
 var $ = require('jquery');
 
-var _store = {
+var TYPES = {
+	track:  '0',
+	artist: '1',
+	album:  '2'
+},
+_store = {
 	results: {},
 	form: {
 		query: '',
-		type: "1"
+		type: TYPES.artist,
+		loading: false
 	}
 };
+
+function mergeResults(data, type, next){
+	var dataType = '';
+
+	switch (type) {
+		case TYPES.track:
+			dataType = 'tracks';
+			break;
+		case TYPES.artist:
+			dataType = 'artists';
+			break;
+		case TYPES.album:
+			dataType = 'albums';
+			break;
+	}
+
+	if (next === true){
+		_store.results.next = data[dataType].next;
+		_store.results.offset = data[dataType].offset;
+		_store.results.items = _store.results.items.concat(data[dataType].items);
+	} else {
+		_store.results = data[dataType];
+	}
+
+	console.log(data);
+	console.log(_store.results);
+
+	_store.form.progress = false;
+
+	ResultsStore.emitChange();
+}
 
 function searchMusicData(data) {
 	var types = ['track','artist','album'],
 		type = types[_store.form.type],
 		query = _store.form.query,
-		ajaxQuery = "https://api.spotify.com/v1/search?q="+query+"&type="+type;
+		ajaxQuery = "https://api.spotify.com/v1/search?q="+query+"&type="+type,
+		next = (data && data.next == true) ? true : false;
 
-	if (data && data.next == true){
+	if (next == true){
 		ajaxQuery = _store.results.next;
 	}
 
 	if (query.length > 0){
 		$.get(ajaxQuery , function(data) {
-			switch (_store.form.type) {
-				case "0":
-      				_store.results = data.tracks;
-					break;
-				case "1":
-      				_store.results = data.artists;
-					break;
-				case "2":
-      				_store.results = data.albums;
-					break;
-			}
-
-
-			console.log('_store.results');
-			console.log(_store.results);
-			
-			ResultsStore.emitChange();
+			mergeResults(data, _store.form.type, next);
 		});
 	}
 }
@@ -51,6 +73,7 @@ function saveQuery(query){
 
 function saveSearchType(type){
 	_store.form.type = type;
+	_store.form.progress = true;
 	_store.results = {};
 	searchMusicData();
 }
