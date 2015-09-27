@@ -25,10 +25,10 @@ var FluxSearch = React.createClass({
 	render: function() {
 		var type = this.props.form.type,
 			loading = this.props.form.loading,
-			searchLayoutFixed = this.props.form.searchLayoutFixed;
+			searchLayoutHide = this.props.form.searchLayoutHide;
 
 		return (
-			<div className={"layout__header" + (searchLayoutFixed == true ? ' layout__header_fixed' : '')}>
+			<div className={"layout__header" + (searchLayoutHide == true ? ' layout__header_hide' : '')}>
 				<div className="app__header">
 					<div className={"loading" + (loading == true ? ' loading_show' : '')}></div>
 					<div className="search">

@@ -36,15 +36,17 @@ body, html, .layout{
 	background: #fff;
 
 	&__header{
-		position: absolute;
+		position: fixed;
 		top: 0;
 		right: 0;
 		left: 0;
 		z-index: 1000;
+		transform: translateY(0);
+		transition: transform 0.3s linear;
 
-		&_fixed{
-			position: fixed;
-			-webkit-animation: slideDown 0.3s linear;
+		&_hide{
+			transform: translateY(-100%);
+			transition: transform 0.3s linear;
 		}
 	}
 
@@ -454,11 +456,11 @@ body, html, .layout{
         );
 
         background-size: 50px 50px;
-        -webkit-animation: loading 2s linear infinite;
+        animation: loading 2s linear infinite;
     }
 }
 
-@-webkit-keyframes loading {
+@keyframes loading {
     0% {
        background-position: 0 0;
     }
@@ -466,23 +468,3 @@ body, html, .layout{
        background-position: 50px 50px;
     }
 }
-
-@-webkit-keyframes slideDown {
-    0% {
-       transform: translateY(-100%);
-    }
-    100% {
-       transform: translateY(0);
-    }
-}
-
-@-webkit-keyframes slideUp {
-    0% {
-       transform: translateY(0);
-    }
-    100% {
-       transform: translateY(-100%);
-    }
-}
-
-

@@ -15,7 +15,7 @@ _store = {
 		query: '',
 		type: TYPES.artist,
 		loading: false,
-		searchLayoutFixed: false
+		searchLayoutHide: false
 	}
 };
 
@@ -130,12 +130,7 @@ AppDispatcher.register(function(payload) {
 		var _this = $(this),
 			newWindowScrollTop = $(this).scrollTop();
 
-		// scrollTop more than headers height
-		if (newWindowScrollTop > 120){
-			_store.form.searchLayoutFixed  = (oldWindowScrollTop > newWindowScrollTop ? true : false);
-		} else if (oldWindowScrollTop > newWindowScrollTop) {
-			_store.form.searchLayoutFixed = true;
-		}
+		_store.form.searchLayoutHide = (newWindowScrollTop > oldWindowScrollTop && newWindowScrollTop > 120 ? true : false);
 		
 		oldWindowScrollTop = newWindowScrollTop;
 
