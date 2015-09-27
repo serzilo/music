@@ -124,17 +124,22 @@ AppDispatcher.register(function(payload) {
 
 (function(window, $){
 	var _window = $(window),
-		windowScrollTop = 0;
+		oldWindowScrollTop = 0;
 
 	_window.on('scroll', function(e){
 		var _this = $(this),
 			newWindowScrollTop = $(this).scrollTop();
 
-		_store.form.searchLayoutFixed  = (windowScrollTop > newWindowScrollTop  ? true : false);
+		// scrollTop more than headers height
+		if (newWindowScrollTop > 120){
+			_store.form.searchLayoutFixed  = (oldWindowScrollTop > newWindowScrollTop ? true : false);
+		} else if (oldWindowScrollTop > newWindowScrollTop) {
+			_store.form.searchLayoutFixed = true;
+		}
+		
+		oldWindowScrollTop = newWindowScrollTop;
 
-		windowScrollTop = newWindowScrollTop;
-
-		ResultsStore.emitChange();
+		ResultsStore.emitChange();	
 	});
 
 

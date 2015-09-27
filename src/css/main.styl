@@ -44,6 +44,7 @@ body, html, .layout{
 
 		&_fixed{
 			position: fixed;
+			-webkit-animation: slideDown 0.3s linear;
 		}
 	}
 
@@ -425,13 +426,25 @@ body, html, .layout{
 
 .loading{
 	position: absolute;
-    top: 0; left: 0; bottom: 0; right: 0;
+    top: 0; 
+    left: 0; 
+    bottom: 0; 
+    right: 0;
 	background-color: rgba(86,138,242, 0.3);
+	transition: opacity 0.3s linear;
+    opacity: 0;
+
+	&_show{
+		opacity: 1;
+	}
 
     &:after{
     	content: "";
         position: absolute;
-        top: 0; left: 0; bottom: 0; right: 0;
+        top: 0; 
+        left: 0; 
+        bottom: 0; 
+        right: 0;
         background-image: -webkit-gradient(linear, 0 0, 100% 100%,
             color-stop(.25, rgba(255, 255, 255, .2)),
             color-stop(.25, transparent), color-stop(.5, transparent),
@@ -441,16 +454,34 @@ body, html, .layout{
         );
 
         background-size: 50px 50px;
-        -webkit-animation: move 2s linear infinite;
+        -webkit-animation: loading 2s linear infinite;
     }
 }
 
-@-webkit-keyframes move {
+@-webkit-keyframes loading {
     0% {
        background-position: 0 0;
     }
     100% {
        background-position: 50px 50px;
+    }
+}
+
+@-webkit-keyframes slideDown {
+    0% {
+       transform: translateY(-100%);
+    }
+    100% {
+       transform: translateY(0);
+    }
+}
+
+@-webkit-keyframes slideUp {
+    0% {
+       transform: translateY(0);
+    }
+    100% {
+       transform: translateY(-100%);
     }
 }
 

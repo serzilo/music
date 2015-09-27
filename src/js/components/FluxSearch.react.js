@@ -30,7 +30,7 @@ var FluxSearch = React.createClass({
 		return (
 			<div className={"layout__header" + (searchLayoutFixed == true ? ' layout__header_fixed' : '')}>
 				<div className="app__header">
-					<div className={(loading == true ? 'loading' : '')}></div>
+					<div className={"loading" + (loading == true ? ' loading_show' : '')}></div>
 					<div className="search">
 						<input ref="searchInput" className="search__input" type="text" placeholder="Поиск" tabIndex="1" onKeyDown={this.keydownHandler} onChange={this.changeHandler} />
 						<i className="search__spinner hide"></i>
