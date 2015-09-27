@@ -14,7 +14,8 @@ _store = {
 	form: {
 		query: '',
 		type: TYPES.artist,
-		loading: false
+		loading: false,
+		searchLayoutFixed: false
 	}
 };
 
@@ -41,10 +42,7 @@ function mergeResults(data, type, next){
 		_store.results = data[dataType];
 	}
 
-	console.log(data);
-	console.log(_store.results);
-
-	_store.form.progress = false;
+	_store.form.loading = false;
 
 	ResultsStore.emitChange();
 }
@@ -56,6 +54,9 @@ function searchMusicData(data) {
 		ajaxQuery = "https://api.spotify.com/v1/search?q="+query+"&type="+type,
 		next = (data && data.next == true) ? true : false;
 
+	_store.form.loading = true;
+	ResultsStore.emitChange();
+
 	if (next == true){
 		ajaxQuery = _store.results.next;
 	}
@@ -64,6 +65,10 @@ function searchMusicData(data) {
 		$.get(ajaxQuery , function(data) {
 			mergeResults(data, _store.form.type, next);
 		});
+	} else {
+		_store.form.loading = false;
+		_store.results = {};
+		ResultsStore.emitChange();
 	}
 }
 
@@ -73,7 +78,6 @@ function saveQuery(query){
 
 function saveSearchType(type){
 	_store.form.type = type;
-	_store.form.progress = true;
 	_store.results = {};
 	searchMusicData();
 }
@@ -112,11 +116,28 @@ AppDispatcher.register(function(payload) {
 		    break;
 		case FluxMusicConstants.CHANGE_SEARCH_TYPE:
 		    saveSearchType(action.data);
-		    ResultsStore.emitChange();
 		    break;
 	    default:
 	    	return true;
   	}
 });
+
+(function(window, $){
+	var _window = $(window),
+		windowScrollTop = 0;
+
+	_window.on('scroll', function(e){
+		var _this = $(this),
+			newWindowScrollTop = $(this).scrollTop();
+
+		_store.form.searchLayoutFixed  = (windowScrollTop > newWindowScrollTop  ? true : false);
+
+		windowScrollTop = newWindowScrollTop;
+
+		ResultsStore.emitChange();
+	});
+
+
+})(window, $);
 
 module.exports = ResultsStore;

@@ -23,14 +23,14 @@ var FluxSearch = React.createClass({
 		FluxMusicActions.search();
 	},
 	render: function() {
-		var type = this.props.type,
-			progress = this.props.progress;
+		var type = this.props.form.type,
+			loading = this.props.form.loading,
+			searchLayoutFixed = this.props.form.searchLayoutFixed;
 
 		return (
-			<div className="layout__header">
+			<div className={"layout__header" + (searchLayoutFixed == true ? ' layout__header_fixed' : '')}>
 				<div className="app__header">
-
-					<div className={(progress == true ? 'animation' : '')}></div>
+					<div className={(loading == true ? 'loading' : '')}></div>
 					<div className="search">
 						<input ref="searchInput" className="search__input" type="text" placeholder="Поиск" tabIndex="1" onKeyDown={this.keydownHandler} onChange={this.changeHandler} />
 						<i className="search__spinner hide"></i>
