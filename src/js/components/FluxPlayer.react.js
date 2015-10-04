@@ -44,15 +44,26 @@ var FluxPlayer = React.createClass({
 	getInitialState: function() {
 		return {
 			playing: false, 
-			time: {
-				current: '1:07',
-				full: '3:15'
+			duration: {
+				dirty: 317,
+				formatted: '5:17'
+			},
+			currentTime: {
+				dirty: 135,
+				formatted: '2:15'
 			},
 			progress: {
-				width: '0'
+				width: 0
 			},
 			track: 'Muse - Starlight'
 		}
+	},
+	componentWillMount: function(){
+		this.setState({
+			progress: {
+				width: this.fromTimeToPercents() + '%'
+			}
+		});
 	},
 	playHandler: function(e){
 		e.preventDefault();
@@ -99,7 +110,7 @@ var FluxPlayer = React.createClass({
 			} else {
 				handledEvents = {
 					move: 'touchmove' + ns,
-					end:  'touchend' + ns
+					end:  'touchend' + ns + ' touchcancel' + ns
 				}
 
 				e = e.touches[0];
@@ -150,6 +161,12 @@ var FluxPlayer = React.createClass({
 
 		return percents;
 	},
+	fromTimeToPercents: function(){
+		var currentTime = this.state.currentTime.dirty,
+			duration = this.state.duration.dirty;
+
+		return (currentTime / duration) * 100;
+	},
 	render: function() {
 		return (
 			<div className="layout__footer">
@@ -163,8 +180,8 @@ var FluxPlayer = React.createClass({
 								<div className="player__progress-bg" style={{width: this.state.progress.width}}></div>
 							</div>
 
-							<div className="player__time player__time-current">{this.state.time.current}</div>
-							<div className="player__time player__time-full">{this.state.time.full}</div>
+							<div className="player__time player__time-current">{this.state.currentTime.formatted}</div>
+							<div className="player__time player__time-full">{this.state.duration.formatted}</div>
 						</div>
 						<div className="player__btn-wrapper">
 							<a href="#" className="player__btn" onClick={this.prevHandler}>
