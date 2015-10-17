@@ -74,6 +74,7 @@ function searchMusicData(data) {
 
 function saveQuery(query){
 	_store.form.query = query;
+	ResultsStore.emitChange();
 }
 
 function saveSearchType(type){

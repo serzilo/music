@@ -16,6 +16,10 @@ var FluxSearch = React.createClass({
 
 		FluxMusicActions.changeQuery(q);
 	},
+	clearFormHandler: function(){
+		FluxMusicActions.changeQuery('');
+		this.refs.searchInput.getDOMNode().focus();
+	},
 	submitFormHandler: function() {
 		this.searchRequest();
 	},
@@ -23,18 +27,27 @@ var FluxSearch = React.createClass({
 		FluxMusicActions.search();
 	},
 	render: function() {
-		var type = this.props.form.type,
-			loading = this.props.form.loading,
-			searchLayoutHide = this.props.form.searchLayoutHide;
+		var form = this.props.form,
+			type = form.type,
+			query = form.query,
+			loading = form.loading,
+			searchLayoutHide = form.searchLayoutHide;
 
 		return (
 			<div className={"layout__header" + (searchLayoutHide == true ? ' layout__header_hide' : '')}>
 				<div className="app__header">
 					<div className={"loading" + (loading == true ? ' loading_show' : '')}></div>
 					<div className="search">
-						<input ref="searchInput" className="search__input" type="text" placeholder="Поиск" tabIndex="1" onKeyDown={this.keydownHandler} onChange={this.changeHandler} />
+						<input ref="searchInput" value={query} className="search__input" type="text" placeholder="Поиск" tabIndex="1" onKeyDown={this.keydownHandler} onChange={this.changeHandler} />
 						<i className="search__spinner hide"></i>
-						<button className="search__btn" tabIndex="2" onClick={this.submitFormHandler}>Найти</button>
+
+						<button className={"search__btn search__btn_clear" + (query.length == 0 ? ' hide' : '')} tabIndex="2" onClick={this.clearFormHandler}>
+							<i className="icon icon-clear"></i>
+						</button>
+
+						<button className="search__btn" tabIndex="3" onClick={this.submitFormHandler}>
+							<i className="icon icon-find"></i>
+						</button>
 					</div>
 					<FluxTypeToggle type={type} />
 				</div>
