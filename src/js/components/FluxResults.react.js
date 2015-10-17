@@ -13,6 +13,7 @@ var FluxResults = React.createClass({
 	render: function() {
 		var self = this, 
 			items = (this.props.results.items ? this.props.results.items : {}),
+			player = this.props.player,
 			type = this.props.type,
 			total = (typeof this.props.results.total != 'undefined' ? this.props.results.total : false),
 			types = {
@@ -50,7 +51,7 @@ var FluxResults = React.createClass({
 			<div className="app__results clear">
 				<div dangerouslySetInnerHTML={{__html: totalMessage}}></div>
 
-				<ResultList items={items} />
+				<ResultList items={items} player={player} />
 
 				<div onClick={this.searchMore} className={'button' + (!this.props.results.next || this.props.results.next === null ? ' hide' : '')}>Загрузить ещё</div>
 			</div>

@@ -1,4 +1,5 @@
 var React = require('react');
+var FluxMusicActions = require('../actions/FluxMusicActions');
 var $ = require('jquery');
 
 function getOffset(elem) {
@@ -41,6 +42,7 @@ function isTouchDevice() {
 }
 
 var FluxPlayer = React.createClass({
+	/*
 	getInitialState: function() {
 		return {
 			playing: false, 
@@ -58,37 +60,27 @@ var FluxPlayer = React.createClass({
 			track: 'Muse - Starlight'
 		}
 	},
+	*/
 	componentWillMount: function(){
+		/*
 		this.setState({
 			progress: {
 				width: this.fromTimeToPercents() + '%'
 			}
 		});
+		*/
 	},
 	playHandler: function(e){
 		e.preventDefault();
-
-		this.setState({playing: !this.state.playing});
-
-		/*
-		var self = this;
-
-		if (this.state.playing == true){
-			setInterval(function(){
-				var w = (parseInt(self.state.progress.width) + 1) + '%';
-
-				self.setState({progress: {width: w }});
-			},500);
-		}
-		*/
+		FluxMusicActions.togglePlay();
 	},
 	prevHandler: function(e){
 		e.preventDefault();
-
+		FluxMusicActions.previousTrack();
 	},
 	nextHandler: function(e){
 		e.preventDefault();
-
+		FluxMusicActions.nextTrack();
 	},
 	progressOffsetLeft: 0,
 	progressWidth: 0,
@@ -161,34 +153,34 @@ var FluxPlayer = React.createClass({
 
 		return percents;
 	},
-	fromTimeToPercents: function(){
-		var currentTime = this.state.currentTime.dirty,
-			duration = this.state.duration.dirty;
-
-		return (currentTime / duration) * 100;
-	},
 	render: function() {
+		var player = this.props.player,
+			track = player.track,
+			progress = player.progress,
+			currentTime = player.currentTime,
+			duration = player.duration,
+			playing = player.playing;
 		return (
 			<div className="layout__footer">
 				<div className="app__footer">
 					<div className="player">
-						<div className="player__track-name" title={this.state.track}>
-							{this.state.track}
+						<div className="player__track-name" title={track}>
+							{track}
 						</div>
 						<div className="player__tools">
 							<div ref="progress" className="player__progress" onMouseDown={this.startMoveHandler} onTouchStart={this.startMoveHandler}>
-								<div className="player__progress-bg" style={{width: this.state.progress.width}}></div>
+								<div className="player__progress-bg" style={{width: progress}}></div>
 							</div>
 
-							<div className="player__time player__time-current">{this.state.currentTime.formatted}</div>
-							<div className="player__time player__time-full">{this.state.duration.formatted}</div>
+							<div className="player__time player__time-current">{currentTime.formatted}</div>
+							<div className="player__time player__time-full">{duration.formatted}</div>
 						</div>
 						<div className="player__btn-wrapper">
 							<a href="#" className="player__btn" onClick={this.prevHandler}>
 								<i className="icon icon-prev"></i>
 							</a>
 							<a href="#" className="player__btn" onClick={this.playHandler}>
-								<i className={"icon " + (this.state.playing == false ? 'icon-play' : 'icon-pause')}></i>
+								<i className={"icon " + (playing == false ? 'icon-play' : 'icon-pause')}></i>
 							</a>
 							<a href="#" className="player__btn" onClick={this.nextHandler}>
 								<i className="icon icon-next"></i>

@@ -13,7 +13,7 @@ _store = {
 	results: {},
 	form: {
 		query: '',
-		type: TYPES.artist,
+		type: TYPES.track,
 		loading: false,
 		searchLayoutHide: false
 	}

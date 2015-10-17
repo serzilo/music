@@ -4,6 +4,7 @@ $footer-height = 164px;
 
 $border-color = #e5e5e5;
 $active-color = #568af2;
+$hover-background-color = #b8cde3;
 $btn-hover-color = #ecf5fd;
 
 // mixins
@@ -217,7 +218,14 @@ body, html, .layout{
 		padding: 6px 6px 6px 20px;
 		cursor: pointer;
 
-		&:hover{
+		&:hover,
+		&:active{
+			background: $hover-background-color;
+		}
+
+		&_playing,
+		&_playing:hover,
+		&_playing:active{
 			background: $active-color;
 			color: #fff;
 		}
@@ -269,7 +277,7 @@ body, html, .layout{
 	&_active,
 	&_active:hover{
 		color: #323232;
-	    background: #b8cde3;
+	    background: $hover-background-color;
 	    box-shadow: inset 0px 3px 5px #6485a7;
 	    cursor: default;
 	}
@@ -318,10 +326,9 @@ body, html, .layout{
 	&:active{
 		padding: 15px 14px 13px 14px;
     	color: #323232;
-    	background: #b8cde3;
+    	background: $hover-background-color;
     	box-shadow: inset 0px 3px 5px #6485a7;
 	}
-
 }
 
 .hide{

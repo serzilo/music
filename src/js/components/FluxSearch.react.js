@@ -11,8 +11,8 @@ var FluxSearch = React.createClass({
 			this.searchRequest();
 		}
 	},
-	changeHandler: function(){
-		var q = $.trim(this.refs.searchInput.getDOMNode().value);
+	changeHandler: function(e){
+		var q = $.trim(e.target.value);
 
 		FluxMusicActions.changeQuery(q);
 	},
