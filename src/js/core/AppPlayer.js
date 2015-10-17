@@ -5,6 +5,8 @@ function Player(){
 
 	self.audio = new Audio();
 
+	self.audio.volume = 0.3;
+
 	$(self.audio).on('timeupdate', function(){
 		self.currentTime = self.timeUpdateHandler();
 	}).on('loadedmetadata', function(){
@@ -59,12 +61,15 @@ $.extend(Player.prototype, {
 		};
 	},
 	fromPercentsToTime: function(p){
-		var currentTimeDirty = self.currentTime.dirty * (p / 100);
+		var currentTimeDirty = this.audio.duration * (p / 100);
 
 		return {
 			dirty: currentTimeDirty,
 			formatted: formatTime(currentTimeDirty)
 		};
+	},
+	setTime: function(time){
+		this.audio.currentTime = time;
 	}
 });
 

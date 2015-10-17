@@ -10,11 +10,11 @@ var _store = {
 	currentPlayingTrackId: '',
 	duration: {
 		dirty: 0,
-		formatted: '0:00'
+		formatted: '00:00'
 	},
 	currentTime: {
 		dirty: 0,
-		formatted: '0:00'
+		formatted: '00:00'
 	},
 	progress: '0',
 	track: '',
@@ -32,6 +32,8 @@ var playerItem = new Player();
 		_store.duration = playerItem.getDuration();
 		_store.progress = fromTimeToPercents();
 		PlayerStore.emitChange();
+	}).on('ended', function(){
+		setSiblingTrack();
 	});
 }());
 
@@ -70,8 +72,6 @@ function playTrackFromResults(id){
 
 	playerItem.play(_store.playing);
 
-	console.log(_store);
-
 	PlayerStore.emitChange();
 }
 
@@ -90,6 +90,9 @@ function getTrackById(id){
 function setTrackById(id){
 	var track = getTrackById(id);
 
+	console.log(id);
+	console.log(track);
+
 	_store.playing = true;
 	_store.currentPlayingTrackId = id;
 	_store.duration.dirty = 0;
@@ -100,16 +103,21 @@ function setTrackById(id){
 }
 
 function getTrackName(data){
-	var artist = (data.artists && data.artists[0] ? data.artists[0].name : '');
-
-	return artist + ' - ' + data.name;
+	if (data){
+		return data.artists[0].name + ' - ' + data.name;
+	} else {
+		console.log('no data!');
+		console.log(data);
+	}
 }
 
 function playToggle(){
-	_store.playing = !_store.playing;
-	playerItem.play(_store.playing);
+	if (_store.currentPlayingTrackId.length > 0){
+		_store.playing = !_store.playing;
+		playerItem.play(_store.playing);
 
-	PlayerStore.emitChange();
+		PlayerStore.emitChange();
+	}
 }
 
 function setSiblingTrack(previous){
@@ -120,12 +128,12 @@ function setSiblingTrack(previous){
 	if (trackListLength > 0 && currentPlayingTrackId.length > 0){
 		_store.currentTime = {
 			dirty: 0,
-			formatted: '0:00'
+			formatted: '00:00'
 		}
 
 		_store.duration = {
 			dirty: 0,
-			formatted: '0:00'
+			formatted: '00:00'
 		}
 
 		_store.progress = 0;
@@ -170,6 +178,21 @@ function fromTimeToPercents(){
 	return ((_store.currentTime.dirty / _store.duration.dirty) * 100) + '%';
 };
 
+function scrollTrack(percent){
+	if (_store.currentPlayingTrackId.length > 0){
+		_store.playing = false;
+		playerItem.play(_store.playing);
+
+		_store.progress = percent;
+
+		_store.currentTime = playerItem.fromPercentsToTime(parseInt(percent, 10));
+
+		playerItem.setTime(_store.currentTime.dirty);
+
+		PlayerStore.emitChange();
+	}
+}
+
 AppDispatcher.register(function(payload) {
 	var action = payload.action;
 
@@ -185,6 +208,9 @@ AppDispatcher.register(function(payload) {
 		    break;
 		case FluxMusicConstants.PLAYER_NEXT_TRACK:
 		    setSiblingTrack();
+		    break;
+		case FluxMusicConstants.PLAYER_SCROLL:
+		    scrollTrack(action.data);
 		    break;
 	    default:
 	    	return true;

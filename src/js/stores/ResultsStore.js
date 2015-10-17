@@ -137,8 +137,6 @@ AppDispatcher.register(function(payload) {
 
 		ResultsStore.emitChange();	
 	});
-
-
 })(window, $);
 
 module.exports = ResultsStore;

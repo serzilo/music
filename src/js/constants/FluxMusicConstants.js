@@ -10,5 +10,5 @@ module.exports = keyMirror({
 	PLAYER_PLAY_TOGGLE: null,
 	PLAYER_NEXT_TRACK: null,
 	PLAYER_PREVIOUS_TRACK: null,
-	PLAYER_CHANGE_TRACK_TIME: null
+	PLAYER_SCROLL: null
 });

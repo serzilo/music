@@ -44,6 +44,12 @@ var FluxMusicActions = {
 		AppDispatcher.handleAction({
 			actionType: FluxMusicConstants.PLAYER_NEXT_TRACK,
 		})
+	},
+	scrollTrack: function(data){
+		AppDispatcher.handleAction({
+			actionType: FluxMusicConstants.PLAYER_SCROLL,
+			data: data
+		})
 	}
 }
 

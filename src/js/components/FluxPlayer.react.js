@@ -42,34 +42,6 @@ function isTouchDevice() {
 }
 
 var FluxPlayer = React.createClass({
-	/*
-	getInitialState: function() {
-		return {
-			playing: false, 
-			duration: {
-				dirty: 317,
-				formatted: '5:17'
-			},
-			currentTime: {
-				dirty: 135,
-				formatted: '2:15'
-			},
-			progress: {
-				width: 0
-			},
-			track: 'Muse - Starlight'
-		}
-	},
-	*/
-	componentWillMount: function(){
-		/*
-		this.setState({
-			progress: {
-				width: this.fromTimeToPercents() + '%'
-			}
-		});
-		*/
-	},
 	playHandler: function(e){
 		e.preventDefault();
 		FluxMusicActions.togglePlay();
@@ -84,6 +56,15 @@ var FluxPlayer = React.createClass({
 	},
 	progressOffsetLeft: 0,
 	progressWidth: 0,
+	componentDidMount: function(){
+		$(window).on('keydown', function(e){
+			var SPACE = 32;
+			
+			if (e.keyCode == SPACE){
+				FluxMusicActions.togglePlay();
+			}
+		});
+	},
 	startMoveHandler: function(e){
 		if ((isTouchDevice() == false && e.type == 'mousedown') || (isTouchDevice() == true && e.type == 'touchstart')){
 			e.preventDefault();
@@ -111,8 +92,9 @@ var FluxPlayer = React.createClass({
 			this.progressOffsetLeft = getOffset(progressHtml).left;
 			this.progressWidth = progressHtml.offsetWidth;
 
-			percents = this.moveHandlerCalculate(e);
-			this.setState({progress: {width: percents + '%' }});
+			percents = this.moveHandlerCalculate(e) + '%';
+
+			FluxMusicActions.scrollTrack(percents);
 
 			$(window).on(handledEvents.move ,function(e){
 				e.preventDefault();
@@ -123,12 +105,14 @@ var FluxPlayer = React.createClass({
 					e = e.originalEvent.touches[0];
 				}
 
-				percents = _this.moveHandlerCalculate(e);
-				_this.setState({progress: {width: percents + '%' }});
+				percents = _this.moveHandlerCalculate(e) + '%';
+				FluxMusicActions.scrollTrack(percents);
 			}).on(handledEvents.end ,function(e){
 				e.preventDefault();
 
 				$(this).off('.progress');
+
+				FluxMusicActions.togglePlay();
 			});
 		}
 	},
@@ -160,6 +144,7 @@ var FluxPlayer = React.createClass({
 			currentTime = player.currentTime,
 			duration = player.duration,
 			playing = player.playing;
+
 		return (
 			<div className="layout__footer">
 				<div className="app__footer">

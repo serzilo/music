@@ -36,8 +36,6 @@ var FluxMusicApp = React.createClass({
 			result: getResultsState(),
 			player: getPlayerState()
 		});
-
-		console.log(this.state);
 	},
 	render: function() {
 	    return (
