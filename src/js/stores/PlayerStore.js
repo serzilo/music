@@ -75,6 +75,18 @@ function playTrackFromResults(id){
 	PlayerStore.emitChange();
 }
 
+function playTrackFromTracklist(id){
+	if (id == _store.currentPlayingTrackId){
+		_store.playing = !_store.playing;
+	} else {
+		setTrackById(id);
+	}
+
+	playerItem.play(_store.playing);
+
+	PlayerStore.emitChange();
+}
+
 function getTrackById(id){
 	if (id){
 		var length = _store.trackList.length;
@@ -198,7 +210,19 @@ AppDispatcher.register(function(payload) {
 
 	switch(action.actionType) {
 		case FluxMusicConstants.PLAYER_PLAY:
-		    playTrackFromResults(action.data);
+			var places = {
+				results: 0,
+				playlist: 1
+			};
+
+			if (action.data.place == places.results){
+				playTrackFromResults(action.data.id);
+			} else if (action.data.place == places.playlist){
+				playTrackFromTracklist(action.data.id);
+			} else {
+				console.log('something wrong. place: ' + action.data.place);
+			}
+
 		    break;
 		case FluxMusicConstants.PLAYER_PLAY_TOGGLE:
 		    playToggle();

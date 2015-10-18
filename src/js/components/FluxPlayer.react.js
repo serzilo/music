@@ -144,7 +144,9 @@ var FluxPlayer = React.createClass({
 
 		return percents;
 	},
-	trackListShow: function() {
+	trackListShow: function(e) {
+		e.preventDefault();
+		
 		this.setState({
 			showPlaylist: !this.state.showPlaylist
 		});
@@ -183,7 +185,7 @@ var FluxPlayer = React.createClass({
 								<i className="icon icon-next"></i>
 							</a>
 
-							<a href="#" className="player__btn player__btn_side-right" onClick={this.trackListShow}>
+							<a href="#" className={"player__btn player__btn_side-right" + (this.state.showPlaylist == true ? " player__btn_clicked" : "")} onClick={this.trackListShow}>
 								<i className="icon icon-list"></i>
 							</a>
 						</div>						

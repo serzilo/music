@@ -3,9 +3,10 @@ var FluxMusicActions = require('../actions/FluxMusicActions');
 
 var FluxTracksList = React.createClass({
 	clickHandler: function(e) {
-		var id = e.target.getAttribute('data-id');
+		var id = e.target.getAttribute('data-id'),
+			place = e.target.getAttribute('data-place')
 
-		FluxMusicActions.play(id);
+		FluxMusicActions.play({id: id, place: place});
 	},
 	render: function() {
 		var self = this, 

@@ -12,6 +12,12 @@ fontSize(size, context){
 	font-size: (size / context) * 100 + '%'
 }
 
+clickedControl(){
+	color: #323232;
+	background: $hover-background-color;
+	box-shadow: inset 0px 3px 5px #6485a7;
+}
+
 * {
 	box-sizing: border-box;
 }
@@ -276,9 +282,7 @@ body, html, .layout{
 
 	&_active,
 	&_active:hover{
-		color: #323232;
-	    background: $hover-background-color;
-	    box-shadow: inset 0px 3px 5px #6485a7;
+		clickedControl()
 	    cursor: default;
 	}
 
@@ -346,8 +350,8 @@ body, html, .layout{
 	    display: inline-block;
 	    cursor: pointer;
 	    padding: 20px;
-	    height: 62px;
-	    width: 62px;
+	    height: 60px;
+	    width: 60px;
 	    text-decoration: none;
 	    vertical-align: middle;
 	    -webkit-tap-highlight-color: rgba(0,0,0,0);
@@ -357,6 +361,18 @@ body, html, .layout{
    			position: absolute;
    			top: 0;
    			right: 0;
+   		}
+
+   		&_clicked:before{
+   			content: '';
+   			display: block;
+   			position: absolute;
+   			top: 10px;
+   			right: 10px;
+   			bottom: 10px;
+   			left: 10px;
+   			border-radius: 3px;
+   			clickedControl()
    		}
 
    		&:active{
@@ -370,7 +386,7 @@ body, html, .layout{
 
    		&-wrapper{
    			text-align: center;
-			padding: 0 62px;
+			padding: 0 60px;
 			position: relative;
 			white-space: nowrap;
    		}
@@ -378,8 +394,8 @@ body, html, .layout{
    		@media all and (max-width: 340px) {
 			&{
 				padding: 15px;
-	    		height: 52px;
-	    		width: 52px;
+	    		height: 50px;
+	    		width: 50px;
 			}	
 
 			&:active{
@@ -387,7 +403,7 @@ body, html, .layout{
 	   		}
 
 			&-wrapper{
-				padding: 0 52px;
+				padding: 0 50px;
 			}
 		}
 
@@ -453,6 +469,7 @@ body, html, .layout{
 	display: block;
 	height: 20px;
 	width: 20px;
+	position: relative;
 }
 
 .loading{
