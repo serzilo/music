@@ -1,5 +1,6 @@
 var React = require('react');
 var FluxMusicActions = require('../actions/FluxMusicActions');
+var FluxPlaylist = require('./FluxPlaylist.react');
 var $ = require('jquery');
 
 function getOffset(elem) {
@@ -42,6 +43,11 @@ function isTouchDevice() {
 }
 
 var FluxPlayer = React.createClass({
+	getInitialState: function() {
+		return {
+			showPlaylist: false
+		}
+	},
 	playHandler: function(e){
 		e.preventDefault();
 		FluxMusicActions.togglePlay();
@@ -61,6 +67,7 @@ var FluxPlayer = React.createClass({
 			var SPACE = 32;
 			
 			if (e.keyCode == SPACE){
+				e.preventDefault();
 				FluxMusicActions.togglePlay();
 			}
 		});
@@ -137,6 +144,11 @@ var FluxPlayer = React.createClass({
 
 		return percents;
 	},
+	trackListShow: function() {
+		this.setState({
+			showPlaylist: !this.state.showPlaylist
+		});
+	},
 	render: function() {
 		var player = this.props.player,
 			track = player.track,
@@ -170,9 +182,15 @@ var FluxPlayer = React.createClass({
 							<a href="#" className="player__btn" onClick={this.nextHandler}>
 								<i className="icon icon-next"></i>
 							</a>
-						</div>
+
+							<a href="#" className="player__btn player__btn_side-right" onClick={this.trackListShow}>
+								<i className="icon icon-list"></i>
+							</a>
+						</div>						
 					</div>
 				</div>
+
+				<FluxPlaylist show={this.state.showPlaylist} player={player} />
 			</div>
 		);
 	}

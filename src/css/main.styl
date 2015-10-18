@@ -1,6 +1,6 @@
 // variables
 $header-height = 119px;
-$footer-height = 164px;
+$footer-height = 147px;
 
 $border-color = #e5e5e5;
 $active-color = #568af2;
@@ -342,35 +342,56 @@ body, html, .layout{
 }
 
 .player{
-	&__btn-wrapper{
-		text-align: center;
-	}
-
 	&__btn{
 	    display: inline-block;
 	    cursor: pointer;
 	    padding: 20px;
 	    height: 62px;
 	    width: 62px;
-	    border: 1px solid $border-color;
 	    text-decoration: none;
 	    vertical-align: middle;
-	    background: #fff;
-	    margin: 0 15px;
-
-	    border-radius: 50%;
 	    -webkit-tap-highlight-color: rgba(0,0,0,0);
    		user-select: none;
 
+   		&_side-right{
+   			position: absolute;
+   			top: 0;
+   			right: 0;
+   		}
+
+   		&:active{
+   			padding: 21px 20px 19px;
+   		}
+
+   		&:hover .icon,
+   		&:active .icon{
+   			opacity: 0.7;
+   		}
+
+   		&-wrapper{
+   			text-align: center;
+			padding: 0 62px;
+			position: relative;
+			white-space: nowrap;
+   		}
+
    		@media all and (max-width: 340px) {
 			&{
-				margin: 0 8px;
+				padding: 15px;
+	    		height: 52px;
+	    		width: 52px;
 			}	
+
+			&:active{
+	   			padding: 16px 15px 14px;
+	   		}
+
+			&-wrapper{
+				padding: 0 52px;
+			}
 		}
 
-   		&:hover{
-   			background: $btn-hover-color;
-   		}
+   		
 	}
 
 	&__tools{
@@ -466,6 +487,32 @@ body, html, .layout{
         background-size: 50px 50px;
         animation: loading 2s linear infinite;
     }
+}
+
+.window{
+	&_fixed{
+		position: fixed;
+		top: 0;
+		right: 0;
+		left: 0;
+		background: #fff;
+		bottom: $footer-height;
+	}
+
+	&__header{
+		font-weight: bold;
+		text-align: center;
+		padding: 14px;
+		fontSize(15, 16)
+    	border-bottom: 1px solid #c2c2c2;
+	}
+
+	&__content-scroll{
+		overflow-y: scroll;
+		-webkit-overflow-scrolling: touch;
+	}
+
+	
 }
 
 @keyframes loading {
