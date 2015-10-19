@@ -192,7 +192,7 @@ var FluxPlayer = React.createClass({
 					</div>
 				</div>
 
-				<FluxPlaylist show={this.state.showPlaylist} player={player} />
+				<FluxPlaylist show={this.state.showPlaylist} player={player} close={this.trackListShow}/>
 			</div>
 		);
 	}

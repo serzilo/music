@@ -1,23 +1,20 @@
 var React = require('react');
 var FluxTracksList = require('./FluxTracksList.react');
+var CommonConstants = require('../constants/CommonConstants');
 var $ = require('jquery');
 
 var FluxPlaylist = React.createClass({
 	render: function() {
-		var show = this.props.show,
-			player = this.props.player,
-			items = this.props.player.trackList,
-			place = 1;
-
-		console.dir(items);
-
 		return (
-			<div className={'window_fixed' + (show == true ? '' : ' hide')}>
+			<div className={'window_fixed' + (this.props.show == true ? '' : ' hide')}>
 				<div className="window__header">
 					Текущий плейлист
+					<button className="search__btn search__btn_clear window__header-btn" onClick={this.props.close}>
+						<i className="icon icon-clear"></i>
+					</button>
 				</div>
 				<div className="window__content-scroll">
-					<FluxTracksList items={items} player={player}  place={place} />
+					<FluxTracksList items={this.props.player.trackList} player={this.props.player}  place={CommonConstants.PLAYLIST} />
 				</div>
 			</div>
 		);

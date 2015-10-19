@@ -1,17 +1,18 @@
 var React = require('react');
+var CommonConstants = require('../constants/CommonConstants');
 var FluxMusicActions = require('../actions/FluxMusicActions');
 
 var FluxTracksList = React.createClass({
 	clickHandler: function(e) {
-		var id = e.target.getAttribute('data-id'),
-			place = e.target.getAttribute('data-place')
+		var id = e.currentTarget.getAttribute('data-id'),
+			place = e.currentTarget.getAttribute('data-place');
 
 		FluxMusicActions.play({id: id, place: place});
 	},
 	render: function() {
 		var self = this, 
 			items = this.props.items,
-			place = this.props.place || 0,
+			place = this.props.place || CommonConstants.RESULTS,
 			currentPlayingTrackId = this.props.player.currentPlayingTrackId;
 
 		return (

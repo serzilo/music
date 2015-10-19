@@ -1,6 +1,7 @@
 var AppDispatcher = require('../dispatcher/AppDispatcher');
 var EventEmitter = require('events').EventEmitter;
 var FluxMusicConstants = require('../constants/FluxMusicConstants');
+var CommonConstants = require('../constants/CommonConstants');
 var _ = require('underscore');
 var Player = require('../core/AppPlayer');
 var $ = require('jquery');
@@ -107,8 +108,18 @@ function setTrackById(id){
 
 	_store.playing = true;
 	_store.currentPlayingTrackId = id;
-	_store.duration.dirty = 0;
-	_store.currentTime.dirty = 0;
+	_store.progress = 0;
+	
+	_store.currentTime = {
+		dirty: 0,
+		formatted: '00:00'
+	}
+
+	_store.duration = {
+		dirty: 0,
+		formatted: '00:00'
+	}
+
 	_store.track = getTrackName(track);
 	
 	playerItem.setSource(track.preview_url);
@@ -138,6 +149,8 @@ function setSiblingTrack(previous){
 		i = 0;
 
 	if (trackListLength > 0 && currentPlayingTrackId.length > 0){
+		var id = 0;
+
 		_store.currentTime = {
 			dirty: 0,
 			formatted: '00:00'
@@ -155,8 +168,6 @@ function setSiblingTrack(previous){
 				break;
 			}
 		}
-
-		var id = 0;
 
 		if (previous && previous == true){
 			id = (_store.trackList[i - 1] ? _store.trackList[i - 1].id : _store.trackList[trackListLength - 1].id)
@@ -192,16 +203,23 @@ function fromTimeToPercents(){
 
 function scrollTrack(percent){
 	if (_store.currentPlayingTrackId.length > 0){
-		_store.playing = false;
-		playerItem.play(_store.playing);
+		var currentTime = playerItem.fromPercentsToTime(parseInt(percent, 10))
 
-		_store.progress = percent;
+		if (!isNaN(currentTime.dirty)){
+			_store.playing = false;
+			playerItem.play(_store.playing);
 
-		_store.currentTime = playerItem.fromPercentsToTime(parseInt(percent, 10));
+			_store.progress = percent;
 
-		playerItem.setTime(_store.currentTime.dirty);
+			_store.currentTime = currentTime;
 
-		PlayerStore.emitChange();
+			playerItem.setTime(_store.currentTime.dirty);
+
+			PlayerStore.emitChange();
+		} else {
+			console.log('data not loaded');
+			console.log(currentTime);
+		}
 	}
 }
 
@@ -210,19 +228,13 @@ AppDispatcher.register(function(payload) {
 
 	switch(action.actionType) {
 		case FluxMusicConstants.PLAYER_PLAY:
-			var places = {
-				results: 0,
-				playlist: 1
-			};
-
-			if (action.data.place == places.results){
+			if (action.data.place == CommonConstants.RESULTS){
 				playTrackFromResults(action.data.id);
-			} else if (action.data.place == places.playlist){
+			} else if (action.data.place == CommonConstants.PLAYLIST){
 				playTrackFromTracklist(action.data.id);
 			} else {
 				console.log('something wrong. place: ' + action.data.place);
 			}
-
 		    break;
 		case FluxMusicConstants.PLAYER_PLAY_TOGGLE:
 		    playToggle();
