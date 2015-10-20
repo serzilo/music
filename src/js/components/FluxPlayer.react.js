@@ -45,7 +45,8 @@ function isTouchDevice() {
 var FluxPlayer = React.createClass({
 	getInitialState: function() {
 		return {
-			showPlaylist: false
+			showPlaylist: false,
+			windowHeight: 0
 		}
 	},
 	playHandler: function(e){
@@ -146,10 +147,29 @@ var FluxPlayer = React.createClass({
 	},
 	trackListShow: function(e) {
 		e.preventDefault();
+
+		var self = this,
+			showPlayList = !this.state.showPlaylist,
+			windowHeight = 0;
+
+		if (showPlayList == true){
+			self.bodyScrollTop = self.getBodyScrollTop();
+
+			windowHeight = document.body.offsetHeight - self.refs.app__footer.getDOMNode().offsetHeight;
+
+			$('body').css({'overflow':'hidden'}).scrollTop(0);
+		} else {
+			$('body').css({'overflow':'auto'}).scrollTop(self.bodyScrollTop);
+		}
 		
 		this.setState({
-			showPlaylist: !this.state.showPlaylist
+			showPlaylist: showPlayList,
+			windowHeight: windowHeight
 		});
+	},
+	bodyScrollTop: 0,
+	getBodyScrollTop: function(){
+		return (document.body && document.body.scrollTop) || (document.documentElement && document.documentElement.scrollTop);
 	},
 	render: function() {
 		var player = this.props.player,
@@ -161,7 +181,7 @@ var FluxPlayer = React.createClass({
 
 		return (
 			<div className="layout__footer">
-				<div className="app__footer">
+				<div className="app__footer" ref="app__footer">
 					<div className="player">
 						<div className="player__track-name" title={track}>
 							{track}
@@ -192,7 +212,7 @@ var FluxPlayer = React.createClass({
 					</div>
 				</div>
 
-				<FluxPlaylist show={this.state.showPlaylist} player={player} close={this.trackListShow}/>
+				<FluxPlaylist show={this.state.showPlaylist} player={player} close={this.trackListShow} windowHeight={this.state.windowHeight} />
 			</div>
 		);
 	}
