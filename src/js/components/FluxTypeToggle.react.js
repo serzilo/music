@@ -1,9 +1,15 @@
 var React = require('react');
 var FluxMusicActions = require('../actions/FluxMusicActions');
+var $ = require('jquery');
 
 var FluxTypeToggle = React.createClass({
 	clickHandler: function(e){
-		FluxMusicActions.changeSearchType(e.target.getAttribute('data-type'));
+		var currentBtnType = e.target.getAttribute('data-type');
+
+		if (currentBtnType != this.props.type){
+			$('body').scrollTop(0);
+			FluxMusicActions.changeSearchType(currentBtnType);
+		}
 	},
 	render: function() {
 		var type = this.props.type,
