@@ -22,7 +22,11 @@ var FluxAlbumsList = React.createClass({
 
 					return (
 						<div className="tile" key={item} data-id={items[item].id} onClick={self.clickHandler}>
-							<div className="tile__image" style={styles.image}></div>
+							<div className="tile__image" style={styles.image}>
+								<div className="tile__play-icon">
+									<i className="icon icon-play-blue"></i>
+								</div>
+							</div>
 							<div className="tile__artist">{items[item].name}</div>
 						</div>
 					);

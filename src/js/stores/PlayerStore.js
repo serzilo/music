@@ -22,6 +22,12 @@ var _store = {
 	trackList: []
 };
 
+var types = {
+	track: 0,
+	artist: 1,
+	album: 2
+};
+
 var playerItem = new Player();
 
 (function(){
@@ -100,16 +106,23 @@ function getTrackById(id){
 	}
 };
 
+function getTrackByNumber(num){
+	return _store.trackList[num];
+};
+
 function setTrackById(id){
-	var track = getTrackById(id);
+	setSpecificTrack(getTrackById(id));
+}
 
-	console.log(id);
-	console.log(track);
+function setTrackByNumber(num){
+	setSpecificTrack(getTrackByNumber(num));
+}
 
+function setSpecificTrack(track){
 	_store.playing = true;
-	_store.currentPlayingTrackId = id;
+	_store.currentPlayingTrackId = track.id;
 	_store.progress = 0;
-	
+
 	_store.currentTime = {
 		dirty: 0,
 		formatted: '00:00'
@@ -121,7 +134,7 @@ function setTrackById(id){
 	}
 
 	_store.track = getTrackName(track);
-	
+
 	playerItem.setSource(track.preview_url);
 }
 
@@ -223,6 +236,38 @@ function scrollTrack(percent){
 	}
 }
 
+function getArtistTopTracks(data){
+	getTracksByType(data.id, types.track);
+}
+
+function getAlbumTracks(data){
+	getTracksByType(data.id, types.album);
+}
+
+function getTracksByType(id, type){
+	var ajaxQuery = '';
+
+	if (type == types.track){
+		ajaxQuery = "https://api.spotify.com/v1/artists/" + id + "/top-tracks?country=US";
+	} else if (type == types.album){
+		ajaxQuery = "https://api.spotify.com/v1/albums/" + id + "/tracks?limit=50";
+	}
+
+	$.get(ajaxQuery , function(data) {
+		if (type == types.track){
+			_store.trackList = data.tracks.slice();
+		} else if (type == types.album){
+			_store.trackList = data.items.slice();
+		}
+		
+		setTrackByNumber(0);
+
+		playerItem.play(_store.playing);
+
+		PlayerStore.emitChange();
+	});
+}
+
 AppDispatcher.register(function(payload) {
 	var action = payload.action;
 
@@ -247,6 +292,13 @@ AppDispatcher.register(function(payload) {
 		    break;
 		case FluxMusicConstants.PLAYER_SCROLL:
 		    scrollTrack(action.data);
+		    break;
+
+		case FluxMusicConstants.GET_ARTIST_TOP_TRACKS:
+		    getArtistTopTracks(action.data);
+		    break;
+		case FluxMusicConstants.GET_ALBUM_TRACKS:
+		    getAlbumTracks(action.data);
 		    break;
 	    default:
 	    	return true;

@@ -210,6 +210,29 @@ body, html, .layout{
 		}
 	}
 
+	&:hover{
+		& .tile__image{
+			&:after{
+				border: 3px solid $active-color;
+			}
+		}
+
+		& .tile__play-icon{
+			display: block;
+		}
+	}
+
+	&__play-icon{
+		display: none;
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		width: 48px;
+		height: 48px;
+		margin-top: -24px;
+		margin-left: -24px;
+	}
+
 	&__artist{
 		font-weight:bold;
 		fontSize(17, 16)
