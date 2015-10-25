@@ -2,6 +2,11 @@ var React = require('react');
 var FluxMusicActions = require('../actions/FluxMusicActions');
 
 var FluxAlbumsList = React.createClass({
+	clickHandler: function(e) {
+		var id = e.currentTarget.getAttribute('data-id');
+
+		FluxMusicActions.getAlbumTracks({id: id});
+	},
 	render: function() {
 		var self = this, 
 			items = this.props.items;
@@ -16,9 +21,9 @@ var FluxAlbumsList = React.createClass({
 					}
 
 					return (
-						<div className="tile" key={item}>
+						<div className="tile" key={item} data-id={items[item].id} onClick={self.clickHandler}>
 							<div className="tile__image" style={styles.image}></div>
-							<div className="tile__artist" id={items[item].id}>{items[item].name}</div>
+							<div className="tile__artist">{items[item].name}</div>
 						</div>
 					);
 				})}

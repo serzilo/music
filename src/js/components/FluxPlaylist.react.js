@@ -8,12 +8,12 @@ var FluxPlaylist = React.createClass({
 		var contentHeight = 0;
 
 		if (this.props.show == true){
-			contentHeight = this.props.windowHeight - this.refs.window__header.getDOMNode().offsetHeight;
+			contentHeight = this.props.windowHeight - 46;
 		}
 
 		return (
 			<div className={'window_fixed' + (this.props.show == true ? '' : ' hide')}>
-				<div className="window__header" ref="window__header">
+				<div className="window__header">
 					Текущий плейлист
 					<button className="search__btn search__btn_clear window__header-btn" onClick={this.props.close}>
 						<i className="icon icon-clear"></i>

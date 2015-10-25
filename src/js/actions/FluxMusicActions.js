@@ -50,6 +50,18 @@ var FluxMusicActions = {
 			actionType: FluxMusicConstants.PLAYER_SCROLL,
 			data: data
 		})
+	},
+	getArtistTopTracks: function(data){
+		AppDispatcher.handleAction({
+			actionType: FluxMusicConstants.GET_ARTIST_TOP_TRACKS,
+			data: data
+		})
+	},
+	getAlbumTracks: function(data){
+		AppDispatcher.handleAction({
+			actionType: FluxMusicConstants.GET_ALBUM_TRACKS,
+			data: data
+		})
 	}
 }
 
