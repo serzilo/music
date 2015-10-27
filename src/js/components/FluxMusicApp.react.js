@@ -4,7 +4,7 @@ var PlayerStore = require('../stores/PlayerStore');
 var FluxSearch = require('./FluxSearch.react');
 var FluxResults = require('./FluxResults.react');
 var FluxPlayer = require('./FluxPlayer.react');
-
+var Common = require('../libs/Common');
 
 function getResultsState() {
 	return ResultsStore.getdata();
@@ -26,6 +26,10 @@ var FluxMusicApp = React.createClass({
 	componentDidMount: function() {
 		ResultsStore.addChangeListener(this._onChange);
 		PlayerStore.addChangeListener(this._onChange);
+
+		if (Common.isTouchDevice() == true) {
+			document.body.className = document.body.className.replace('desktop','touch');
+		}
 	},
 	componentWillUnmount: function() {
 		ResultsStore.removeChangeListener(this._onChange);

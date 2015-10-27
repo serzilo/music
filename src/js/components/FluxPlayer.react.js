@@ -2,6 +2,7 @@ var React = require('react');
 var FluxMusicActions = require('../actions/FluxMusicActions');
 var FluxPlaylist = require('./FluxPlaylist.react');
 var $ = require('jquery');
+var Common = require('../libs/Common');
 
 function getOffset(elem) {
     if (elem.getBoundingClientRect) {
@@ -38,10 +39,6 @@ function getOffsetRect(elem) {
     return { top: Math.round(top), left: Math.round(left) };
 }
 
-function isTouchDevice() {
-	return !!('ontouchstart' in window);
-}
-
 var FluxPlayer = React.createClass({
 	getInitialState: function() {
 		return {
@@ -67,14 +64,16 @@ var FluxPlayer = React.createClass({
 		$(window).on('keydown', function(e){
 			var SPACE = 32;
 			
-			if (e.keyCode == SPACE){
-				e.preventDefault();
-				FluxMusicActions.togglePlay();
+			if (e.target.nodeName.toLowerCase() != 'input'){
+				if (e.keyCode == SPACE){
+					e.preventDefault();
+					FluxMusicActions.togglePlay();
+				}
 			}
 		});
 	},
 	startMoveHandler: function(e){
-		if ((isTouchDevice() == false && e.type == 'mousedown') || (isTouchDevice() == true && e.type == 'touchstart')){
+		if ((Common.isTouchDevice() == false && e.type == 'mousedown') || (Common.isTouchDevice() == true && e.type == 'touchstart')){
 			e.preventDefault();
 
 			var progressHtml = this.refs.progress.getDOMNode(),
@@ -83,7 +82,7 @@ var FluxPlayer = React.createClass({
 				handledEvents = {},
 				ns = '.progress';
 
-			if (isTouchDevice() == false){
+			if (Common.isTouchDevice() == false){
 				handledEvents = {
 					move: 'mousemove' + ns,
 					end:  'mouseup' + ns
@@ -109,7 +108,7 @@ var FluxPlayer = React.createClass({
 
 				var percents = 0;
 
-				if (isTouchDevice() == true){
+				if (Common.isTouchDevice() == true){
 					e = e.originalEvent.touches[0];
 				}
 

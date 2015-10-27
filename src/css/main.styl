@@ -132,7 +132,7 @@ body, html{
 		width: 31px;
 		padding: 6px 9px 7px 9px;
 
-		&:hover,
+		.desktop &:hover,
 		&:focus{
 			outline: none;
 			background: #4c79d4;
@@ -147,12 +147,12 @@ body, html{
 		}
 
 		&_clear,
-		&_clear:hover,
+		.desktop &_clear:hover,
 		&_clear:focus{
 			background: #fff;
 		}
 
-		&_clear:hover{
+		.desktop &_clear:hover{
 			opacity: 0.7;
 		}
 	}
@@ -211,7 +211,8 @@ body, html{
 		}
 	}
 
-	&:hover{
+	&_clicked,
+	.desktop &:hover{
 		& .tile__image{
 			&:after{
 				border: 3px solid $active-color;
@@ -255,20 +256,28 @@ body, html{
 		padding: 6px 6px 6px 20px;
 		cursor: pointer;
 
-		&:hover,
-		&:active{
+		.touch &{
+			padding: 8px 20px;
+		}
+
+		.desktop &:hover,
+		.desktop &:active{
 			background: $hover-background-color;
 		}
 
 		&_playing,
-		&_playing:hover,
-		&_playing:active{
+		.desktop &_playing:hover,
+		.desktop &_playing:active{
 			background: $active-color;
 			color: #fff;
 		}
 
-		&:active{
+		.desktop &:active{
 			padding: 7px 6px 5px 20px;
+		}
+
+		.touch &:active{
+			padding: 9px 20px 7px 20px;
 		}
 	}
 }
@@ -307,12 +316,12 @@ body, html{
     user-select: none;
     border-radius: 0px;
 
-    &:hover{
+    .desktop &:hover{
     	background: $btn-hover-color;
     }
 
 	&_active,
-	&_active:hover{
+	.desktop &_active:hover{
 		clickedControl()
 	    cursor: default;
 	}
@@ -354,7 +363,7 @@ body, html{
 
 	user-select: none;
 
-	&:hover{
+	.desktop &:hover{
 		background: #ecf5fd;
 	}
 
@@ -410,7 +419,7 @@ body, html{
    			padding: 21px 20px 19px;
    		}
 
-   		&:hover .icon,
+   		.desktop &:hover .icon,
    		&:active .icon{
    			opacity: 0.7;
    		}
@@ -531,7 +540,6 @@ body, html{
             color-stop(.75, rgba(255, 255, 255, .2)),
             color-stop(.75, transparent), to(transparent)
         );
-
         background-size: 50px 50px;
         animation: loading 2s linear infinite;
     }

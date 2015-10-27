@@ -5,5 +5,3 @@ React.render(
   <FluxMusicApp />,
   document.getElementById('app')
 );
-
-console.log('ready');

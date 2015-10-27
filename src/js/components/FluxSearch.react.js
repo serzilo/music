@@ -12,9 +12,7 @@ var FluxSearch = React.createClass({
 		}
 	},
 	changeHandler: function(e){
-		var q = $.trim(e.target.value);
-
-		FluxMusicActions.changeQuery(q);
+		FluxMusicActions.changeQuery(e.target.value);
 	},
 	clearFormHandler: function(){
 		FluxMusicActions.changeQuery('');
