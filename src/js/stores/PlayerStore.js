@@ -19,7 +19,9 @@ var _store = {
 	},
 	progress: '0',
 	track: '',
-	trackList: []
+	trackList: [],
+	playingGroupId: 0,
+	loading: false
 };
 
 var types = {
@@ -73,6 +75,7 @@ function playTrackFromResults(id){
 		}
 	} else {
 		_store.trackList = items.slice();
+		_store.playingGroupId = 0;
 
 		setTrackById(id);
 	}
@@ -245,27 +248,38 @@ function getAlbumTracks(data){
 }
 
 function getTracksByType(id, type){
-	var ajaxQuery = '';
+	if (_store.playingGroupId != id){
+		var ajaxQuery = '';
 
-	if (type == types.track){
-		ajaxQuery = "https://api.spotify.com/v1/artists/" + id + "/top-tracks?country=US";
-	} else if (type == types.album){
-		ajaxQuery = "https://api.spotify.com/v1/albums/" + id + "/tracks?limit=50";
-	}
-
-	$.get(ajaxQuery , function(data) {
-		if (type == types.track){
-			_store.trackList = data.tracks.slice();
-		} else if (type == types.album){
-			_store.trackList = data.items.slice();
-		}
-		
-		setTrackByNumber(0);
-
-		playerItem.play(_store.playing);
+		_store.loading = true;
+		_store.playingGroupId = id;
 
 		PlayerStore.emitChange();
-	});
+
+		if (type == types.track){
+			ajaxQuery = "https://api.spotify.com/v1/artists/" + id + "/top-tracks?country=US";
+		} else if (type == types.album){
+			ajaxQuery = "https://api.spotify.com/v1/albums/" + id + "/tracks?limit=50";
+		}
+
+		$.get(ajaxQuery , function(data) {
+			if (type == types.track){
+				_store.trackList = data.tracks.slice();
+			} else if (type == types.album){
+				_store.trackList = data.items.slice();
+			}
+
+			setTrackByNumber(0);
+
+			playerItem.play(_store.playing);
+
+			_store.loading = false;
+
+			PlayerStore.emitChange();
+		});
+	} else {
+		playToggle();
+	}
 }
 
 AppDispatcher.register(function(payload) {
@@ -293,7 +307,6 @@ AppDispatcher.register(function(payload) {
 		case FluxMusicConstants.PLAYER_SCROLL:
 		    scrollTrack(action.data);
 		    break;
-
 		case FluxMusicConstants.GET_ARTIST_TOP_TRACKS:
 		    getArtistTopTracks(action.data);
 		    break;
@@ -304,6 +317,5 @@ AppDispatcher.register(function(payload) {
 	    	return true;
   	}
 });
-
 
 module.exports = PlayerStore;
