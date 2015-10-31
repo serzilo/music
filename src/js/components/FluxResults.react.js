@@ -1,10 +1,8 @@
 var React = require('react');
 var $ = require('jquery');
 var FluxMusicActions = require('../actions/FluxMusicActions');
-
 var FluxTracksList = require('./FluxTracksList.react');
-var FluxArtistsList = require('./FluxArtistsList.react');
-var FluxAlbumsList = require('./FluxAlbumsList.react');
+var FluxTilesList = require('./FluxTilesList.react');
 
 var FluxResults = React.createClass({
 	searchMore: function(){
@@ -33,17 +31,20 @@ var FluxResults = React.createClass({
 			totalMessage += '</div>';
 		}
 
-		var ResultList;
+		var ResultList,
+			clickHandlerAction;
 
 		switch (type) {
 			case types.track:
   				ResultList = FluxTracksList;
 				break;
 			case types.artist:
-  				ResultList = FluxArtistsList;
+  				ResultList = FluxTilesList;
+  				clickHandlerAction = FluxMusicActions.getArtistTopTracks;
 				break;
 			case types.album:
-  				ResultList = FluxAlbumsList;
+  				ResultList = FluxTilesList;
+  				clickHandlerAction = FluxMusicActions.getAlbumTracks;
 				break;
 		}
 
@@ -51,7 +52,7 @@ var FluxResults = React.createClass({
 			<div className="app__results clear">
 				<div dangerouslySetInnerHTML={{__html: totalMessage}}></div>
 
-				<ResultList items={items} player={player} />
+				<ResultList items={items} player={player} clickHandlerAction={clickHandlerAction} />
 
 				<div onClick={this.searchMore} className={'button' + (!this.props.results.next || this.props.results.next === null ? ' hide' : '')}>Загрузить ещё</div>
 			</div>

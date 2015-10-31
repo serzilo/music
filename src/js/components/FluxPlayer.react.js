@@ -151,6 +151,7 @@ var FluxPlayer = React.createClass({
 			showPlayList = !this.state.showPlaylist,
 			windowHeight = 0;
 
+		/*
 		if (showPlayList == true){
 			self.bodyScrollTop = self.getBodyScrollTop();
 
@@ -160,6 +161,7 @@ var FluxPlayer = React.createClass({
 		} else {
 			$('body').css({'overflow':'auto'}).scrollTop(self.bodyScrollTop);
 		}
+		*/
 		
 		this.setState({
 			showPlaylist: showPlayList,

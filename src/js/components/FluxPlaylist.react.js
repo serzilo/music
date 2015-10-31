@@ -4,6 +4,12 @@ var CommonConstants = require('../constants/CommonConstants');
 var $ = require('jquery');
 
 var FluxPlaylist = React.createClass({
+	windowTopScroll: 0,
+	playListScrolling: false,
+	scrollHandler: function(){
+		this.playListScrolling = true;
+		$(window).scrollTop(this.windowTopScroll);
+	},
 	render: function() {
 		var contentHeight = 0;
 
@@ -12,19 +18,29 @@ var FluxPlaylist = React.createClass({
 		}
 
 		return (
-			<div className={'window_fixed' + (this.props.show == true ? '' : ' hide')}>
-				<div className="window__header">
+			<div className={'playlist' + (this.props.show == true ? ' playlist_show' : '')}>
+				<div className="playlist__header">
 					Текущий плейлист
-					<button className="search__btn search__btn_clear window__header-btn" onClick={this.props.close}>
+					<button className="search__btn search__btn_clear playlist__header-btn" onClick={this.props.close}>
 						<i className="icon icon-clear"></i>
 					</button>
 				</div>
-				<div className="window__content-scroll" style={{height: contentHeight + 'px'}}>
+				<div className="playlist__content-scroll" onScroll={this.scrollHandler}>
 					<FluxTracksList items={this.props.player.trackList} player={this.props.player}  place={CommonConstants.PLAYLIST} />
 				</div>
 			</div>
 		);
 	}
 });
+
+(function(){
+	$(window).on('scroll', function(e){
+		console.log($(this).scrollTop());
+
+		if (FluxPlaylist.playListScrolling == false){
+			FluxPlaylist.windowTopScroll = $(this).scrollTop();
+		}
+	});
+}());
 
 module.exports = FluxPlaylist;

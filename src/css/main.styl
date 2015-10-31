@@ -38,6 +38,7 @@ body {
 body, html{
 	height: 100%;
 	min-height: 100%;
+	-webkit-tap-highlight-color: rgba(0,0,0,0);
 }
 
 .layout{
@@ -547,16 +548,20 @@ body, html{
     }
 }
 
-.window{
-	&_fixed{
-		position: fixed;
-		top: 0;
-	    left: 0;
-	    right: 0;
-	    margin: 0 auto;
-		max-width: 900px;
-		background: #fff;
-		shadow();
+.playlist{
+	position: fixed;
+	top: 0;
+	bottom: 0;
+    right: 0;
+	width: 300px;
+	background: #fff;
+	z-index: 100;
+	shadow();
+	display: none;
+
+	&_show{
+		display: block;
+		animation: showPlaylist 0.2s linear;
 	}
 
 	&__header{
@@ -583,6 +588,11 @@ body, html{
 	&__content-scroll{
 		overflow-y: scroll;
 		-webkit-overflow-scrolling: touch;
+		position: absolute;
+		top: 46px;
+		right: 0;
+		bottom: 0;
+		left: 0;
 	}
 
 	
@@ -594,5 +604,14 @@ body, html{
     }
     100% {
        background-position: 50px 50px;
+    }
+}
+
+@keyframes showPlaylist {
+    0% {
+       transform: translate3d(100%, 0px, 0px);
+    }
+    100% {
+       transform: translate3d(0px, 0px, 0px);
     }
 }
