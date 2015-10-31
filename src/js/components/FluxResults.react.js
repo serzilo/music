@@ -6,13 +6,16 @@ var FluxTilesList = require('./FluxTilesList.react');
 
 var FluxResults = React.createClass({
 	searchMore: function(){
-		FluxMusicActions.searchMore();
+		if (this.props.form.loading == false){
+			FluxMusicActions.searchMore();
+		}
 	},
 	render: function() {
 		var self = this, 
 			items = (this.props.results.items ? this.props.results.items : {}),
 			player = this.props.player,
-			type = this.props.type,
+			type = this.props.form.type,
+			loading = this.props.form.loading,
 			total = (typeof this.props.results.total != 'undefined' ? this.props.results.total : false),
 			types = {
 				track:  '0',
@@ -54,7 +57,10 @@ var FluxResults = React.createClass({
 
 				<ResultList items={items} player={player} clickHandlerAction={clickHandlerAction} />
 
-				<div onClick={this.searchMore} className={'button' + (!this.props.results.next || this.props.results.next === null ? ' hide' : '')}>Загрузить ещё</div>
+				<div onClick={this.searchMore} className={'button' + (!this.props.results.next || this.props.results.next === null ? ' hide' : '')}>
+					<div className={'loading' + (loading == true ? ' loading_show' : '')}></div>
+					Загрузить ещё
+				</div>
 			</div>
 		);
 	}

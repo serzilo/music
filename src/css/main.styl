@@ -1,6 +1,5 @@
 // variables
 $header-height = 119px;
-$footer-height = 147px;
 
 $border-color = #e5e5e5;
 $active-color = #568af2;
@@ -92,7 +91,7 @@ body, html{
 
 	&__results{
 		padding-top: $header-height + 1
-		padding-bottom: $footer-height + 1
+		padding-bottom: 200px;
 		background: #fff;
 	}
 
@@ -115,6 +114,8 @@ body, html{
 		border: 1px solid #c2c2c2;
 		fontSize(15, 16)
 		padding: 7px 8px;
+		border-radius: 0;
+		-webkit-appearance: none;
 
 		&:focus{
 			border-color: $active-color;
@@ -354,6 +355,7 @@ body, html{
     font-weight: bold;
     fontSize(13, 16);
     cursor: pointer;
+    position: relative;
 
     padding: 14px;
 	background: #fff;
@@ -400,9 +402,17 @@ body, html{
 	    -webkit-tap-highlight-color: rgba(0,0,0,0);
    		user-select: none;
 
+   		&_side-left,
    		&_side-right{
    			position: absolute;
    			top: 0;
+   		}
+
+   		&_side-left{
+   			left: 0;
+   		}
+
+   		&_side-right{
    			right: 0;
    		}
 
@@ -558,6 +568,12 @@ body, html{
 	z-index: 100;
 	shadow();
 	display: none;
+
+	@media all and (max-width: 399px) {
+		&{
+			width:80%;
+		}	
+	}
 
 	&_show{
 		display: block;

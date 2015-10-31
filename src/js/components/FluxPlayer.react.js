@@ -196,6 +196,10 @@ var FluxPlayer = React.createClass({
 							<div className="player__time player__time-full">{duration.formatted}</div>
 						</div>
 						<div className="player__btn-wrapper">
+							<a href="#" className={"player__btn player__btn_side-left" + (this.state.showPlaylist == true ? " player__btn_clicked" : "")} onClick={this.trackListShow}>
+								<i className="icon icon-list"></i>
+							</a>
+
 							<a href="#" className="player__btn" onClick={this.prevHandler}>
 								<i className="icon icon-prev"></i>
 							</a>
@@ -204,10 +208,6 @@ var FluxPlayer = React.createClass({
 							</a>
 							<a href="#" className="player__btn" onClick={this.nextHandler}>
 								<i className="icon icon-next"></i>
-							</a>
-
-							<a href="#" className={"player__btn player__btn_side-right" + (this.state.showPlaylist == true ? " player__btn_clicked" : "")} onClick={this.trackListShow}>
-								<i className="icon icon-list"></i>
 							</a>
 						</div>						
 					</div>
