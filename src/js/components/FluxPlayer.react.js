@@ -42,7 +42,7 @@ function getOffsetRect(elem) {
 var FluxPlayer = React.createClass({
 	getInitialState: function() {
 		return {
-			minified: true,
+			minified: false,
 			showPlaylist: false
 		}
 	},
