@@ -42,8 +42,7 @@ function getOffsetRect(elem) {
 var FluxPlayer = React.createClass({
 	getInitialState: function() {
 		return {
-			showPlaylist: false,
-			windowHeight: 0
+			showPlaylist: false
 		}
 	},
 	playHandler: function(e){
@@ -147,30 +146,9 @@ var FluxPlayer = React.createClass({
 	trackListShow: function(e) {
 		e.preventDefault();
 
-		var self = this,
-			showPlayList = !this.state.showPlaylist,
-			windowHeight = 0;
-
-		/*
-		if (showPlayList == true){
-			self.bodyScrollTop = self.getBodyScrollTop();
-
-			windowHeight = document.body.offsetHeight - self.refs.app__footer.getDOMNode().offsetHeight;
-
-			$('body').css({'overflow':'hidden'}).scrollTop(0);
-		} else {
-			$('body').css({'overflow':'auto'}).scrollTop(self.bodyScrollTop);
-		}
-		*/
-		
 		this.setState({
-			showPlaylist: showPlayList,
-			windowHeight: windowHeight
+			showPlaylist: !this.state.showPlaylist
 		});
-	},
-	bodyScrollTop: 0,
-	getBodyScrollTop: function(){
-		return (document.body && document.body.scrollTop) || (document.documentElement && document.documentElement.scrollTop);
 	},
 	render: function() {
 		var player = this.props.player,
@@ -213,7 +191,7 @@ var FluxPlayer = React.createClass({
 					</div>
 				</div>
 
-				<FluxPlaylist show={this.state.showPlaylist} player={player} close={this.trackListShow} windowHeight={this.state.windowHeight} />
+				<FluxPlaylist show={this.state.showPlaylist} player={player} close={this.trackListShow} />
 			</div>
 		);
 	}
