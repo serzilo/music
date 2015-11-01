@@ -85,8 +85,59 @@ body, html{
 	}
 
 	&__footer{
-		border-top: none;
 		border-top: 1px solid $border-color;
+
+		&_minified{
+			padding: 0;
+
+			& .player__btn{
+				padding: 10px;
+			    height: 40px;
+			    width: 40px;
+
+			    &:active{
+			    	padding: 11px 10px 9px 10px;
+			    }
+
+			    &_clicked:before{
+			    	top: 5px;
+			    	right: 5px;
+			    	bottom: 5px;
+			    	left: 5px;
+			    }
+			}
+
+			& .player__progress{
+				border-top: none;
+			}
+
+			& .player__progress-bg{
+				height: 100%;
+				opacity: 0.5;
+
+				&:after{
+					display: none;
+				}
+			}
+
+			& .player__tools{
+				padding: 10px 0;
+			}
+
+			& .player__time{
+				&-current{
+					margin-left: 5px;
+				}
+
+				&-full{
+					margin-right: 5px;
+				}
+			}
+
+			& .player__track-name{
+				padding: 0 5px;
+			}
+		}
 	}
 
 	&__results{
