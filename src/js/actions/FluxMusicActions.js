@@ -4,12 +4,12 @@ var FluxMusicConstants = require('../constants/FluxMusicConstants');
 var FluxMusicActions = {
 	search: function() {
 		AppDispatcher.handleAction({
-			actionType: FluxMusicConstants.SEARCH,
+			actionType: FluxMusicConstants.SEARCH
 		})
 	},
 	searchMore: function(){
 		AppDispatcher.handleAction({
-			actionType: FluxMusicConstants.SEARCH_MORE,
+			actionType: FluxMusicConstants.SEARCH_MORE
 		})
 	},
 	changeQuery: function(data) {
@@ -32,17 +32,17 @@ var FluxMusicActions = {
 	},
 	togglePlay: function() {
 		AppDispatcher.handleAction({
-			actionType: FluxMusicConstants.PLAYER_PLAY_TOGGLE,
+			actionType: FluxMusicConstants.PLAYER_PLAY_TOGGLE
 		})
 	},
 	previousTrack: function() {
 		AppDispatcher.handleAction({
-			actionType: FluxMusicConstants.PLAYER_PREVIOUS_TRACK,
+			actionType: FluxMusicConstants.PLAYER_PREVIOUS_TRACK
 		})
 	},
 	nextTrack: function() {
 		AppDispatcher.handleAction({
-			actionType: FluxMusicConstants.PLAYER_NEXT_TRACK,
+			actionType: FluxMusicConstants.PLAYER_NEXT_TRACK
 		})
 	},
 	scrollTrack: function(data){
@@ -61,6 +61,11 @@ var FluxMusicActions = {
 		AppDispatcher.handleAction({
 			actionType: FluxMusicConstants.GET_ALBUM_TRACKS,
 			data: data
+		})
+	},
+	toggleMinified: function(){
+		AppDispatcher.handleAction({
+			actionType: FluxMusicConstants.TOGGLE_MINIFIED
 		})
 	}
 }

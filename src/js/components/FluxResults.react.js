@@ -6,17 +6,19 @@ var FluxTilesList = require('./FluxTilesList.react');
 
 var FluxResults = React.createClass({
 	searchMore: function(){
-		if (this.props.form.loading == false){
+		if (this.props.result.form.loading == false){
 			FluxMusicActions.searchMore();
 		}
 	},
 	render: function() {
 		var self = this, 
-			items = (this.props.results.items ? this.props.results.items : {}),
+			result = this.props.result,
+			items = (result.results.items ? result.results.items : {}),
 			player = this.props.player,
-			type = this.props.form.type,
-			loading = this.props.form.loading,
-			total = (typeof this.props.results.total != 'undefined' ? this.props.results.total : false),
+			minified = player.minified,
+			type = result.form.type,
+			loading = result.form.loading,
+			total = (typeof result.results.total != 'undefined' ? result.results.total : false),
 			types = {
 				track:  '0',
 				artist: '1',
@@ -52,12 +54,12 @@ var FluxResults = React.createClass({
 		}
 
 		return (
-			<div className="app__results clear">
+			<div className={"app__results clear" + (minified == true ? ' app__results_minified' : '')}>
 				<div dangerouslySetInnerHTML={{__html: totalMessage}}></div>
 
 				<ResultList items={items} player={player} clickHandlerAction={clickHandlerAction} />
 
-				<div onClick={this.searchMore} className={'button' + (!this.props.results.next || this.props.results.next === null ? ' hide' : '')}>
+				<div onClick={this.searchMore} className={'button' + (!result.results.next || result.results.next === null ? ' hide' : '')}>
 					<div className={'loading' + (loading == true ? ' loading_show' : '')}></div>
 					Загрузить ещё
 				</div>

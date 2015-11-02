@@ -2,6 +2,7 @@ var AppDispatcher = require('../dispatcher/AppDispatcher');
 var EventEmitter = require('events').EventEmitter;
 var FluxMusicConstants = require('../constants/FluxMusicConstants');
 var CommonConstants = require('../constants/CommonConstants');
+var Common = require('../libs/Common');
 var _ = require('underscore');
 var Player = require('../core/AppPlayer');
 var $ = require('jquery');
@@ -21,7 +22,8 @@ var _store = {
 	track: '',
 	trackList: [],
 	playingGroupId: 0,
-	loading: false
+	loading: false,
+	minified: false
 };
 
 var types = {
@@ -44,6 +46,16 @@ var playerItem = new Player();
 	}).on('ended', function(){
 		setSiblingTrack();
 	});
+
+	// get minified state from localstorage
+	var minified = Common.getLocalStorageValue('minified');
+
+	if (minified !== null){
+		_store.minified = (minified == 1 ? true : false);
+	}
+
+	console.log(minified);
+
 }());
 
 var PlayerStore = _.extend({}, EventEmitter.prototype, {
@@ -282,6 +294,14 @@ function getTracksByType(id, type){
 	}
 }
 
+function toggleMinified(){
+	_store.minified = !_store.minified;
+
+	Common.setLocalStorageValue('minified', (_store.minified == true ? 1 : 0));
+
+	PlayerStore.emitChange();
+}
+
 AppDispatcher.register(function(payload) {
 	var action = payload.action;
 
@@ -312,6 +332,10 @@ AppDispatcher.register(function(payload) {
 		    break;
 		case FluxMusicConstants.GET_ALBUM_TRACKS:
 		    getAlbumTracks(action.data);
+		    break;
+
+		case FluxMusicConstants.TOGGLE_MINIFIED:
+		    toggleMinified();
 		    break;
 	    default:
 	    	return true;

@@ -13,5 +13,7 @@ module.exports = keyMirror({
 	PLAYER_SCROLL: null,
 
 	GET_ARTIST_TOP_TRACKS: null,
-	GET_ALBUM_TRACKS: null
+	GET_ALBUM_TRACKS: null,
+
+	TOGGLE_MINIFIED: null
 });

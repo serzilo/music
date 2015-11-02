@@ -1,5 +1,6 @@
 // variables
 $header-height = 119px;
+$header-height-minified = 77px;
 
 $border-color = #e5e5e5;
 $active-color = #568af2;
@@ -84,6 +85,15 @@ body, html{
 		padding: 15px;
 	}
 
+	&__header_minified{
+		padding: 1px;
+
+		& .block{
+			margin-top: 1px;
+		}
+	}
+
+
 	&__footer{
 		border-top: 1px solid $border-color;
 
@@ -144,6 +154,10 @@ body, html{
 		padding-top: $header-height + 1
 		padding-bottom: 200px;
 		background: #fff;
+
+		&_minified{
+			padding-top: $header-height-minified + 1
+		}
 	}
 
 	&__total{
@@ -231,6 +245,15 @@ body, html{
 	text-align: left;
 	margin: 10px 0;
 	position: relative;
+
+	.app__results_minified &{
+		padding: 2px;
+		margin: 2px 0;
+
+		&__artist{
+			padding-top: 1px;
+		}
+	}
 
 	@media all and (max-width: 700px) {
 		&{

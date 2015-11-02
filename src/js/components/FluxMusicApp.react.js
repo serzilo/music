@@ -44,8 +44,8 @@ var FluxMusicApp = React.createClass({
 	render: function() {
 	    return (
 	    	<div>
-		        <FluxSearch form={this.state.result.form} />
-		        <FluxResults player={this.state.player} results={this.state.result.results} form={this.state.result.form} />
+		        <FluxSearch form={this.state.result.form} minified={this.state.player.minified} />
+		        <FluxResults player={this.state.player} result={this.state.result} />
 		        <FluxPlayer player={this.state.player} />
 	        </div>
 	    );

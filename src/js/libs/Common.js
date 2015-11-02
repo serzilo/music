@@ -1,15 +1,34 @@
 var $ = require('jquery');
 
 var C = {
-	isTouchDevice: function(){
+	isTouchDevice: function() {
 		return !!('ontouchstart' in window);
 	},
-	getBodyScrollTop: function(){
+	getBodyScrollTop: function() {
 		return (document.body && document.body.scrollTop) || (document.documentElement && document.documentElement.scrollTop);
+	},
+	isLocalStorageAvailable: function() {
+	    try {
+	        return 'localStorage' in window && window['localStorage'] !== null;
+	    } catch (e) {
+	        return false;
+	    }
+	},
+	getLocalStorageValue: function(value) {
+		if (C.isLocalStorageAvailable() == true) {
+			return localStorage.getItem(value);
+		} else {
+			return null;
+		}
+	},
+	setLocalStorageValue: function(key, value) {
+		if (C.isLocalStorageAvailable() == true) {
+			localStorage.setItem(key, value);
+		}
 	}
 };
 
-$.fn.mousewheel = function () {
+$.fn.mousewheel = function() {
 	var mustdie = /(trident|msie)/i.test(navigator.userAgent), 
 		doc = document.documentElement, 
 		event_name, events = {

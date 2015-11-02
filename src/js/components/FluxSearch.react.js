@@ -29,11 +29,12 @@ var FluxSearch = React.createClass({
 			type = form.type,
 			query = form.query,
 			loading = form.loading,
-			searchLayoutHide = form.searchLayoutHide;
+			searchLayoutHide = form.searchLayoutHide,
+			minified = this.props.minified;
 
 		return (
 			<div className={"layout__header" + (searchLayoutHide == true ? ' layout__header_hide' : '')}>
-				<div className="app__header">
+				<div className={"app__header" + (minified == true ? ' app__header_minified' : '')}>
 					<div className={"loading" + (loading == true ? ' loading_show' : '')}></div>
 					<div className="search">
 						<input ref="searchInput" value={query} className="search__input" type="text" placeholder="Поиск" tabIndex="1" onKeyDown={this.keydownHandler} onChange={this.changeHandler} />

@@ -42,7 +42,6 @@ function getOffsetRect(elem) {
 var FluxPlayer = React.createClass({
 	getInitialState: function() {
 		return {
-			minified: false,
 			showPlaylist: false
 		}
 	},
@@ -154,9 +153,7 @@ var FluxPlayer = React.createClass({
 	togglePlayerVersion:  function(e) {
 		e.preventDefault();
 
-		this.setState({
-			minified: !this.state.minified
-		});
+		FluxMusicActions.toggleMinified();
 	},
 	render: function() {
 		var player = this.props.player,
@@ -164,13 +161,14 @@ var FluxPlayer = React.createClass({
 			progress = player.progress,
 			currentTime = player.currentTime,
 			duration = player.duration,
-			playing = player.playing;
+			playing = player.playing,
+			minified = player.minified;
 
 		return (
 			<div className="layout__footer">
-				<div className={'app__footer' + (this.state.minified == true ? ' app__footer_minified' : '')} ref="app__footer">
+				<div className={'app__footer' + (minified == true ? ' app__footer_minified' : '')} ref="app__footer">
 					<div className="player">
-						<div className={'player__track-name' + (this.state.minified == true ? ' hide' : '')} title={track}>{track}</div>
+						<div className={'player__track-name' + (minified == true ? ' hide' : '')} title={track}>{track}</div>
 
 						<div className="player__tools">
 							<div ref="progress" className="player__progress" onMouseDown={this.startMoveHandler} onTouchStart={this.startMoveHandler}>
@@ -180,7 +178,7 @@ var FluxPlayer = React.createClass({
 							<div className="player__time player__time-current">{currentTime.formatted}</div>
 							<div className="player__time player__time-full">{duration.formatted}</div>
 
-							<div className={'player__track-name' + (this.state.minified == true ? '' : ' hide')} title={track}>{track}</div>
+							<div className={'player__track-name' + (minified == true ? '' : ' hide')} title={track}>{track}</div>
 						</div>
 
 						<div className="player__btn-wrapper">
@@ -199,7 +197,7 @@ var FluxPlayer = React.createClass({
 							</a>
 
 							<a href="#" className="player__btn player__btn_side-right"  onClick={this.togglePlayerVersion}>
-								<i className={'icon ' + (this.state.minified == true ? 'icon-up' : 'icon-down')}></i>
+								<i className={'icon ' + (minified == true ? 'icon-up' : 'icon-down')}></i>
 							</a>
 						</div>						
 					</div>
