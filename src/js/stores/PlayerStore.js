@@ -23,7 +23,8 @@ var _store = {
 	trackList: [],
 	playingGroupId: 0,
 	loading: false,
-	minified: false
+	minified: false,
+	repeat: false
 };
 
 var types = {
@@ -44,7 +45,7 @@ var playerItem = new Player();
 		_store.progress = fromTimeToPercents();
 		PlayerStore.emitChange();
 	}).on('ended', function(){
-		setSiblingTrack();
+		setSiblingTrack('currentTrackEnded');
 	});
 
 	// get minified state from localstorage
@@ -171,13 +172,14 @@ function playToggle(){
 	}
 }
 
-function setSiblingTrack(previous){
+function setSiblingTrack(track){
 	var currentPlayingTrackId = _store.currentPlayingTrackId,
 		trackListLength = _store.trackList.length,
 		i = 0;
 
 	if (trackListLength > 0 && currentPlayingTrackId.length > 0){
-		var id = 0;
+		var id = 0,
+			playFromBeginning = false;
 
 		_store.currentTime = {
 			dirty: 0,
@@ -197,16 +199,27 @@ function setSiblingTrack(previous){
 			}
 		}
 
-		if (previous && previous == true){
+		if (track && track == true){
 			id = (_store.trackList[i - 1] ? _store.trackList[i - 1].id : _store.trackList[trackListLength - 1].id)
 		} else {
-			id = (_store.trackList[i + 1] ? _store.trackList[i + 1].id : _store.trackList[0].id)
+			if (_store.trackList[i + 1]){
+				id = _store.trackList[i + 1].id;
+			} else {
+				id = _store.trackList[0].id;
+				playFromBeginning = true;
+			}
+
+			// id = (_store.trackList[i + 1] ? _store.trackList[i + 1].id : _store.trackList[0].id)
 		}
 
 		setTrackById(id);
 
-		playerItem.play(_store.playing);
+		if (_store.repeat == false && playFromBeginning == true && track == 'currentTrackEnded'){
+			_store.playing = false;
+		}
 
+		playerItem.play(_store.playing);
+		
 		PlayerStore.emitChange();
 	}
 }

@@ -13,7 +13,10 @@ var gulp = require('gulp'),
     cssmin = require('gulp-minify-css'),
     spritesmith = require('gulp.spritesmith'),
     browserSync = require("browser-sync"),
-    reload = browserSync.reload;
+    reload = browserSync.reload,
+
+    args = require('yargs').argv,
+    gulpif = require('gulp-if');
 
 
 var path = {
@@ -59,19 +62,31 @@ gulp.task('html:build', function () {
 
 
 gulp.task('js:build', function () {
-    return browserify(path.src.js, {debug: true})
+    /*
+    gulp --env dev
+    gulp --env prod
+    gulp // default dev
+    */
+
+    var env = args.env || 'dev',
+        settings = {
+            dev: {
+                browserify: {debug: true}
+            },
+            prod: {
+                browserify: {}
+            }
+        };
+
+
+    return browserify(path.src.js, settings[env].browserify)
         .transform(reactify)
         .bundle()
         .pipe(source(path.build.jsName))
         .pipe(buffer())
-        /* .pipe(uglify()) */
+        .pipe(gulpif(env != 'dev', uglify()))
         .pipe(gulp.dest(path.build.js))
         .pipe(reload({stream: true}));
-
-   /*
-    gulp.src(path.src.js)
-        .pipe(gulp.dest(path.build.js))
-    */
 });
 
 gulp.task('css:build', function () {
@@ -133,5 +148,5 @@ gulp.task('webserver', function () {
 });
 
 
-// gulp.task('default', ['build', 'webserver', 'watch']);
-gulp.task('default', ['build',  'watch']);
+ gulp.task('default', ['build', 'webserver', 'watch']);
+//gulp.task('default', ['build',  'watch']);
